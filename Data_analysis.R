@@ -7,11 +7,7 @@
 ####TRYB WSADOWY
 
 #This way I can count how many groups there is
-names(data_with_NA)[1] <- "ID"
-my_table<-table(data_with_NA$ID)
-my_table
-how_many_groups<-length(names(my_table))
-how_many_groups
+
 
 
 for (col_name in names(dane)) {
@@ -57,7 +53,7 @@ Remove_NA <- function(df){
   }
   
   if(length(change_report) > 0) {
-    writeLines(change_report, "change_report.txt")
+    writeLines(change_report, "raport.txt")
   }
   
   return(ready)
@@ -65,9 +61,36 @@ Remove_NA <- function(df){
 
 
 data<-Remove_NA(data_with_NA)
-data
+
+Select_and_count_groups<-function(df){
+  names(df)[1] <- "ID"
+  my_table<-table(df$ID)
+  return (my_table)
+}
+
+Descriptive_statistics<-function(df)
+{
+  Selected_groups<-Select_and_count_groups(df)
+  
+  
+  for(i in seq_along(Selected_groups))
+  {
+    write(Selected_groups[i], "raport.txt", append = TRUE)
+  } 
+  
+    
+}
+  
+Descriptive_statistics(data)
+
 
 #IDEA 
+for (col in names(df)){
+  is.numeric(df[[col]])
+  {
+    paste("max",max(col),"min",min(col),"średnia",mean(col))
+  }
+}
 
 
 
