@@ -34,16 +34,27 @@ Replace_blank_with_NA<-function(x)
 }
 
 Remove_NA <- function(df){
+  change_report <- c()
+  
   df<-Replace_blank_with_NA(df)
   for (col in names(df)) {
     #If NA in numeric column than replace with a median
+    
     if(is.numeric(df[[col]]) & any(is.na(df[[col]]))) {
+      NA_rows <- which(is.na(df[[col]]))  # get rows with missing values
       df[[col]][is.na(df[[col]])] <- median(df[[col]], na.rm = TRUE)
-    } #If NA in non numeric column, delete this row
+      change_report <- c(change_report, paste("missing data in column ", col, "in rows:", NA_rows,"replacing with a median",median(df[[col]])))
+    }
   }
   
+  #Now every NA in numeric columns are gone
+  #I delete every row with NA i non numeric column
   complete.cases(df)
   ready<-df[complete.cases(df),]
+  
+  if(length(change_report) > 0) {
+    writeLines(change_report, "change_report.txt")
+  }
   
   return(ready)
 }

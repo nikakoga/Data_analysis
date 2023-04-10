@@ -1,0 +1,3 @@
+missing data in column  HGB in rows: 13 replacing with a median 12.2436
+missing data in column  HGB in rows: 68 replacing with a median 12.2436
+missing data in column  MON in rows: 5 replacing with a median 0.74
