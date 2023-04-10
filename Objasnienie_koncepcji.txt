@@ -1,0 +1,2 @@
+Funkcja Remove_NA iteruje po kolumnach i w przypadku natrafienia na kolumnę która zawiera dane numeryczne a ma w środku jakieś wartości NA, podmienia te wartości na medianę tej kolumny.
+W przypadku NA występujących w kolumnach nienumerycznych wiersz jest usuwany.
