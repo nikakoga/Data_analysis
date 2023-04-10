@@ -22,8 +22,6 @@ for (col_name in names(dane)) {
 setwd("C:/Users/weron/Documents/Studia/PP/4 semestr/SAD/Projekt")
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
-data_with_NA
-
 
 library("Hmisc")
 
@@ -43,14 +41,20 @@ Remove_NA <- function(df){
     if(is.numeric(df[[col]]) & any(is.na(df[[col]]))) {
       NA_rows <- which(is.na(df[[col]]))  # get rows with missing values
       df[[col]][is.na(df[[col]])] <- median(df[[col]], na.rm = TRUE)
-      change_report <- c(change_report, paste("missing data in column ", col, "in rows:", NA_rows,"replacing with a median",median(df[[col]])))
+      change_report <- c(change_report, paste("Missing data in column", col, "in rows:", paste(NA_rows, collapse = ", "),"replacing with a median",median(df[[col]])))
     }
   }
   
   #Now every NA in numeric columns are gone
-  #I delete every row with NA i non numeric column
-  complete.cases(df)
+  #I delete every row with NA in non numeric column
+  TRUE_FALSE_vector<-complete.cases(df) #returns FALSE for rows with NA
+  Rows_to_delete<-which(TRUE_FALSE_vector==FALSE)
   ready<-df[complete.cases(df),]
+  
+  if (length(Rows_to_delete) > 0) {
+    deleted <- paste("Lack of data in non-numeric column I removed rows index:", paste(Rows_to_delete, collapse = ", "))
+    change_report<-append(change_report,deleted)
+  }
   
   if(length(change_report) > 0) {
     writeLines(change_report, "change_report.txt")
