@@ -77,7 +77,15 @@ Outliners_detection<-function(df)
       
       #outliners<-append(outliners,(paste(col,boxplot.stats(df[[col]])$out,"\n")))
       outliers<-boxplot.stats(df[[col]])$out
-      capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
+      if(length(outliers)>0)
+      {
+        capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
+      }
+      else
+      {
+        capture.output(cat(col,"no outliners","\n"), file = "raport.txt",append=TRUE)
+      }
+      
       
     }
     
