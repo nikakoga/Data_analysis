@@ -10,9 +10,6 @@
 
 
 setwd("C:/Users/weron/Documents/Studia/PP/4 semestr/SAD/Projekt")
-
-data_with_NA<-read.csv2("Dane.csv",header=TRUE)
-
 library("Hmisc")
 
 Replace_blank_with_NA<-function(x)
@@ -54,8 +51,6 @@ Remove_NA <- function(df){
 }
 
 
-data<-Remove_NA(data_with_NA)
-
 count_groups <- function(column) {
   unique_elements <- unique(column)
   num_unique <- length(unique_elements)
@@ -64,7 +59,7 @@ count_groups <- function(column) {
   df <- data.frame(ID = names(counts), count = as.numeric(counts))
   df
   write("\nIlosc grup oraz ich liczność","raport.txt",append=TRUE)
-  #write.table(df,"raport.txt",append=TRUE, col.names = TRUE)
+  write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
   
   return(df)
 }
@@ -73,19 +68,28 @@ Descriptive_statistics<-function(df)
 {
   df_with_selected_groups<-count_groups(df[1])
   
+  for(col in names(df))
+  {
+    if(is.numeric(df[[col]]))
+       {
+     
+        write(paste('\n', col), "raport.txt", append = TRUE)
+
+      s <- summary(df[[col]])
+      capture.output(s, file = "raport.txt",append=TRUE)
+    }
+        
+    
+  }
     
 }
-  
+
+data_with_NA<-read.csv2("Dane.csv",header=TRUE)
+data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
 
 
-#IDEA 
-for (col in names(df)){
-  is.numeric(df[[col]])
-  {
-    paste("max",max(col),"min",min(col),"średnia",mean(col))
-  }
-}
+
 
 
 
