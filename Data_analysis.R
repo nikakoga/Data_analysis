@@ -58,22 +58,44 @@ count_groups <- function(column) {
   
   df <- data.frame(ID = names(counts), count = as.numeric(counts))
   df
-  write("\nIlosc grup oraz ich liczność","raport.txt",append=TRUE)
+  write("\nGROPUS AND THEIR SIZE\n","raport.txt",append=TRUE)
   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
   
   return(df)
 }
 
+Outliners_detection<-function(df)
+{
+  outliners=c()
+  write("\n\nOUTLIERS\n","raport.txt",append=TRUE)
+  for(col in names(df))
+  {
+   
+    if(is.numeric(df[[col]]))
+    {
+      boxplot(df[[col]],
+              ylab = col)
+      
+      outliners<-append(outliners,(paste(col,boxplot.stats(df[[col]])$out,"\n")))
+      
+    }
+  }
+  write(outliners,"raport.txt",append=TRUE)
+  
+}
+
 Descriptive_statistics<-function(df)
 {
+  Outliners_detection(df)
   df_with_selected_groups<-count_groups(df[1])
+  write("\n\nCHARACTERISTICS","raport.txt",append=TRUE)
   
   for(col in names(df))
   {
     if(is.numeric(df[[col]]))
        {
      
-        write(paste('\n', col), "raport.txt", append = TRUE)
+        write(paste('\n\n', col), "raport.txt", append = TRUE)
 
       s <- summary(df[[col]])
       capture.output(s, file = "raport.txt",append=TRUE)
@@ -86,7 +108,9 @@ Descriptive_statistics<-function(df)
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 data<-Remove_NA(data_with_NA)
+data
 Descriptive_statistics(data)
+
 
 
 

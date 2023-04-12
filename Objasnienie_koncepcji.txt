@@ -4,3 +4,6 @@ W przypadku NA występujących w kolumnach nienumerycznych wiersz jest usuwany.
 Funkcja count_unique 
 korzysta z wbudowanej funkcji uniq która zwraca tylko elementy unikalne
 as.numeric(counts) zwraca wektor liczby wystąpień każdej wartości. 
+
+Funkcja descriptive_statistics
+Aby zapisać funkcję summary do pliku musiałam to zrobić za pomocą capture.outputs bo inaczej się plik rozjeżdżał

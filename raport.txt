@@ -2,42 +2,101 @@ Missing data in column HGB in rows: 13, 68 replacing with a median 12.2436
 Missing data in column MON in rows: 5 replacing with a median 0.74
 Lack of data in non-numeric column I removed rows index: 50, 74, 75
 
-Ilosc grup oraz ich liczność
+
+OUTLIERS
+
+wiek 48 
+
+hsCRP 20.1548 
+
+hsCRP 16.4069 
+
+hsCRP 42.6499 
+
+hsCRP 19.2124 
+
+hsCRP 14.3951 
+
+hsCRP 13.8106 
+
+ERY 33 
+
+PLT 456 
+
+PLT 434 
+
+HGB 22.2318 
+
+HCT 0.0423 
+
+MCHC 38.8674 
+
+MCHC 38.203 
+
+MCHC 32.0573 
+
+MON 1.5 
+
+MON 1.52 
+
+MON 0.14 
+
+MON 1.61 
+
+MON 7 
+
+LEU  
+
+
+GROPUS AND THEIR SIZE
+
 "CHOR1" 25
 "CHOR2" 24
 "KONTROLA" 23
+
+
+CHARACTERISTICS
+
 
  wiek
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   17.00   26.75   30.00   30.69   35.00   48.00 
 
+
  hsCRP
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.3351  2.2548  4.0750  5.5694  6.7184 42.6499 
+
 
  ERY
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   3.130   3.850   4.185   4.549   4.440  33.000 
 
+
  PLT
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    91.0   179.8   209.0   222.3   251.0   456.0 
+
 
  HGB
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   9.505  11.277  12.244  12.200  13.049  22.232 
 
+
  HCT
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.0423  0.3325  0.3545  0.3497  0.3832  0.4120 
+
 
  MCHC
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   32.06   34.34   35.05   35.00   35.71   38.87 
 
+
  MON
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.1400  0.6075  0.7400  0.8631  0.9000  7.0000 
+
 
  LEU
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
