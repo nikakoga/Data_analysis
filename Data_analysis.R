@@ -9,12 +9,6 @@
 #This way I can count how many groups there is
 
 
-
-for (col_name in names(dane)) {
-  cat("Column ", col_name, ":\n")
-  print(dane[[col_name]])
-}
-
 setwd("C:/Users/weron/Documents/Studia/PP/4 semestr/SAD/Projekt")
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
@@ -62,21 +56,22 @@ Remove_NA <- function(df){
 
 data<-Remove_NA(data_with_NA)
 
-Select_and_count_groups<-function(df){
-  names(df)[1] <- "ID"
-  my_table<-table(df$ID)
-  return (my_table)
+count_groups <- function(column) {
+  unique_elements <- unique(column)
+  num_unique <- length(unique_elements)
+  counts <- table(column)
+  
+  df <- data.frame(ID = names(counts), count = as.numeric(counts))
+  df
+  write("\nIlosc grup oraz ich liczność","raport.txt",append=TRUE)
+  #write.table(df,"raport.txt",append=TRUE, col.names = TRUE)
+  
+  return(df)
 }
 
 Descriptive_statistics<-function(df)
 {
-  Selected_groups<-Select_and_count_groups(df)
-  
-  
-  for(i in seq_along(Selected_groups))
-  {
-    write(Selected_groups[i], "raport.txt", append = TRUE)
-  } 
+  df_with_selected_groups<-count_groups(df[1])
   
     
 }

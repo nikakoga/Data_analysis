@@ -1,6 +1,8 @@
 Missing data in column HGB in rows: 13, 68 replacing with a median 12.2436
 Missing data in column MON in rows: 5 replacing with a median 0.74
-Lack of data in non-numeric column I removed rows index: 74, 75
-25
-25
-23
+Lack of data in non-numeric column I removed rows index: 50, 74, 75
+
+Ilosc grup oraz ich liczność
+"CHOR1" 25
+"CHOR2" 24
+"KONTROLA" 23
