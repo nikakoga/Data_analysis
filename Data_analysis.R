@@ -66,7 +66,6 @@ count_groups <- function(column) {
 
 Outliners_detection<-function(df)
 {
-  outliners=c()
   write("\n\nOUTLIERS\n","raport.txt",append=TRUE)
   for(col in names(df))
   {
@@ -76,11 +75,14 @@ Outliners_detection<-function(df)
       boxplot(df[[col]],
               ylab = col)
       
-      outliners<-append(outliners,(paste(col,boxplot.stats(df[[col]])$out,"\n")))
+      #outliners<-append(outliners,(paste(col,boxplot.stats(df[[col]])$out,"\n")))
+      outliers<-boxplot.stats(df[[col]])$out
+      capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
       
     }
+    
   }
-  write(outliners,"raport.txt",append=TRUE)
+  
   
 }
 
