@@ -6,8 +6,6 @@
 #dane <- read.csv(file=args[1], header=TRUE)
 ####TRYB WSADOWY
 
-#This way I can count how many groups there is
-
 
 setwd("C:/Users/weron/Documents/Studia/PP/4 semestr/SAD/Projekt")
 library("Hmisc")
@@ -61,10 +59,9 @@ count_groups <- function(column) {
   write("\nGROPUS AND THEIR SIZE\n","raport.txt",append=TRUE)
   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
   
-  return(df)
 }
 
-Outliners_detection<-function(df)
+Outliers_detection<-function(df)
 {
   write("\n\nOUTLIERS\n","raport.txt",append=TRUE)
   for(col in names(df))
@@ -85,42 +82,39 @@ Outliners_detection<-function(df)
       {
         capture.output(cat(col,"no outliners","\n"), file = "raport.txt",append=TRUE)
       }
-      
-      
     }
-    
   }
-  
-  
 }
 
 Descriptive_statistics<-function(df)
 {
-  Outliners_detection(df)
-  df_with_selected_groups<-count_groups(df[1])
+  Outliers_detection(df)
+  count_groups(df[1])
   write("\n\nCHARACTERISTICS","raport.txt",append=TRUE)
   
-  for(col in names(df))
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  
+  colnames<-names(df[,-1])
+  for(col in colnames)
   {
-    if(is.numeric(df[[col]]))
-       {
-     
-        write(paste('\n\n', col), "raport.txt", append = TRUE)
-
-      s <- summary(df[[col]])
-      capture.output(s, file = "raport.txt",append=TRUE)
-    }
+    for(group in groupnames)
+    {
+      if(is.numeric(splitted_groups[[group]][[col]]))
+      {
         
-    
+        write(paste('\n\n', group, '\n', col), "raport.txt", append = TRUE)
+        
+        s <- summary(splitted_groups[[group]][[col]])
+        capture.output(s, file = "raport.txt",append=TRUE)
+      }
+    }
   }
-    
 }
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 data<-Remove_NA(data_with_NA)
-data
 Descriptive_statistics(data)
-
 
 
 

@@ -7,3 +7,6 @@ as.numeric(counts) zwraca wektor liczby wystąpień każdej wartości.
 
 Funkcja descriptive_statistics
 Aby zapisać funkcję summary do pliku musiałam to zrobić za pomocą capture.outputs bo inaczej się plik rozjeżdżał
+
+Funkcja Outliners_detection
+Skorzystałam z tego, że R oferuje wykrywanie wartości odstających poprzez analize boxplot.

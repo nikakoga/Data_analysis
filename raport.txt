@@ -26,46 +26,163 @@ GROPUS AND THEIR SIZE
 CHARACTERISTICS
 
 
+ CHOR1 
  wiek
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  17.00   26.75   30.00   30.69   35.00   48.00 
+  17.00   26.00   29.00   29.56   32.00   43.00 
 
 
+ CHOR2 
+ wiek
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  21.00   25.00   30.00   30.25   33.50   42.00 
+
+
+ KONTROLA 
+ wiek
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  23.00   28.50   32.00   32.39   35.50   48.00 
+
+
+ CHOR1 
  hsCRP
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.3351  2.2548  4.0750  5.5694  6.7184 42.6499 
+ 0.4876  2.3227  3.9665  6.1030  4.9935 42.6499 
 
 
+ CHOR2 
+ hsCRP
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3351  2.0408  3.3307  5.3682  8.3352 19.2124 
+
+
+ KONTROLA 
+ hsCRP
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.7584  2.2532  4.2204  5.1992  6.7630 14.3951 
+
+
+ CHOR1 
  ERY
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  3.130   3.850   4.185   4.549   4.440  33.000 
+  3.530   4.070   4.200   5.363   4.510  33.000 
 
 
+ CHOR2 
+ ERY
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  3.250   3.842   4.295   4.200   4.475   5.040 
+
+
+ KONTROLA 
+ ERY
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  3.130   3.825   3.980   4.030   4.275   5.050 
+
+
+ CHOR1 
  PLT
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   91.0   179.8   209.0   222.3   251.0   456.0 
+  128.0   179.0   217.0   225.3   266.0   336.0 
 
 
+ CHOR2 
+ PLT
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   91.0   170.5   196.5   210.0   224.2   456.0 
+
+
+ KONTROLA 
+ PLT
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  157.0   192.5   219.0   232.0   255.0   434.0 
+
+
+ CHOR1 
  HGB
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  9.505  11.277  12.244  12.200  13.049  22.232 
+  9.505  11.921  12.405  12.405  13.210  14.499 
 
 
+ CHOR2 
+ HGB
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  9.827  11.599  12.590  12.850  13.734  22.232 
+
+
+ KONTROLA 
+ HGB
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  9.666  10.552  11.438  11.298  11.921  13.049 
+
+
+ CHOR1 
  HCT
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0423  0.3325  0.3545  0.3497  0.3832  0.4120 
+ 0.2800  0.3500  0.3630  0.3636  0.3860  0.4050 
 
 
+ CHOR2 
+ HCT
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0423  0.3300  0.3635  0.3466  0.3900  0.4120 
+
+
+ KONTROLA 
+ HCT
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2820  0.3225  0.3390  0.3379  0.3515  0.3890 
+
+
+ CHOR1 
  MCHC
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  32.06   34.34   35.05   35.00   35.71   38.87 
+  32.56   34.71   35.05   35.13   35.60   36.87 
 
 
+ CHOR2 
+ MCHC
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  32.89   34.88   35.46   35.50   36.04   38.87 
+
+
+ KONTROLA 
+ MCHC
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  32.06   33.64   34.38   34.35   35.30   36.04 
+
+
+ CHOR1 
  MON
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.1400  0.6075  0.7400  0.8631  0.9000  7.0000 
+ 0.4800  0.6100  0.7600  0.8532  1.0700  1.5200 
 
 
+ CHOR2 
+ MON
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.140   0.550   0.680   0.965   0.905   7.000 
+
+
+ KONTROLA 
+ MON
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3500  0.6750  0.7700  0.7674  0.8650  1.2500 
+
+
+ CHOR1 
  LEU
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  4.830   9.818  11.363  11.696  13.412  17.460 
+   6.79   10.11   11.38   11.84   13.60   16.81 
+
+
+ CHOR2 
+ LEU
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   7.95   10.62   11.71   11.91   12.72   16.59 
+
+
+ KONTROLA 
+ LEU
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   4.83    9.17   10.68   11.32   13.65   17.46 
