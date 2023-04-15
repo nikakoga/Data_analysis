@@ -7,7 +7,7 @@
 ####TRYB WSADOWY
 
 
-setwd("C:/Users/weron/Documents/Studia/PP/4 semestr/SAD/Projekt")
+setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
 library("Hmisc")
 
 Replace_blank_with_NA<-function(x)
@@ -64,16 +64,18 @@ count_groups <- function(column) {
 Outliers_detection<-function(df)
 {
   write("\n\nOUTLIERS\n","raport.txt",append=TRUE)
+  pdf(file= "Outliers.pdf" )
   for(col in names(df))
   {
-   
     if(is.numeric(df[[col]]))
     {
+      #TESTY
       boxplot(df[[col]],
               ylab = col)
-      
-      #outliners<-append(outliners,(paste(col,boxplot.stats(df[[col]])$out,"\n")))
       outliers<-boxplot.stats(df[[col]])$out
+      mtext(paste("Outliers: ", paste(outliers, collapse = ", ")))
+      
+     
       if(length(outliers)>0)
       {
         capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
@@ -84,6 +86,7 @@ Outliers_detection<-function(df)
       }
     }
   }
+  dev.off()
 }
 
 Descriptive_statistics<-function(df)
@@ -116,8 +119,27 @@ data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
 
-
-
+# require(knitr)
+# my_text <- "Hello pls start working"
+# knit(text = my_text, output = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.pdf")
+# 
+# install.packages("pdftools")
+# library(pdftools)
+# my_pdf<-"C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt/TEST.pdf"
+# my_picture<-"C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt/OBRAZ.jpg"
+# 
+# 
+# # konwertujemy plik PDF na obiekt R
+# pdf <- pdf_convert(my_pdf)
+# 
+# # wstawiamy obraz
+# pdf <- pdf_insert_image(pdf, "OBRAZ.jpg", page = n_pages(pdf)+1)
+# 
+# # zapisujemy zmodyfikowany plik PDF
+# pdf_save(pdf, "TEST.pdf")
+# 
+# # usuwamy obiekt R
+# pdf_close(pdf)
 
 
 
