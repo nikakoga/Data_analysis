@@ -1,7 +1,8 @@
-Missing data in column HGB in rows: 13, 68 replacing with a median 12.2436
-Missing data in column MON in rows: 5 replacing with a median 0.74
-Missing data in column LEU in rows: 13 replacing with a median 11.375
-Lack of data in non-numeric column I removed rows index: 50, 74, 75
+Missing data in column HGB in group CHOR1 replacing with a median 12.4047
+Missing data in column HGB in group KONTROLA replacing with a median 11.4381
+Missing data in column MON in group CHOR1 replacing with a median 0.76
+Missing data in column LEU in group CHOR1 replacing with a median 11.32
+Lack of data in non-numeric column. Removed rows index: 50, 74, 75
 
 
 OUTLIERS
@@ -101,7 +102,7 @@ CHARACTERISTICS
  CHOR1 
  HGB
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  9.505  11.921  12.405  12.405  13.210  14.499 
+  9.505  11.921  12.405  12.411  13.210  14.499 
 
 
  CHOR2 
@@ -113,7 +114,7 @@ CHARACTERISTICS
  KONTROLA 
  HGB
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  9.666  10.552  11.438  11.298  11.921  13.049 
+  9.666  10.552  11.438  11.263  11.760  13.049 
 
 
  CHOR1 
@@ -155,7 +156,7 @@ CHARACTERISTICS
  CHOR1 
  MON
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.4800  0.6100  0.7600  0.8532  1.0700  1.5200 
+  0.480   0.610   0.760   0.854   1.070   1.520 
 
 
  CHOR2 
@@ -173,7 +174,7 @@ CHARACTERISTICS
  CHOR1 
  LEU
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   6.79   10.11   11.38   11.84   13.60   16.81 
+   6.79   10.11   11.32   11.83   13.60   16.81 
 
 
  CHOR2 

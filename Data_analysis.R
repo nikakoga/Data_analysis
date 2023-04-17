@@ -16,37 +16,40 @@ Replace_blank_with_NA<-function(x)
   return(x)
 }
 
-Remove_NA <- function(df){
+Remove_NA <- function(df_old) {
   change_report <- c()
   
-  df<-Replace_blank_with_NA(df)
+  df <- Replace_blank_with_NA(df_old)
+  
   for (col in names(df)) {
-    #If NA in numeric column than replace with a median
-    
-    if(is.numeric(df[[col]]) & any(is.na(df[[col]]))) {
+    # Check if NA in numeric column
+    if (is.numeric(df[[col]]) & any(is.na(df[[col]]))) {
       NA_rows <- which(is.na(df[[col]]))  # get rows with missing values
-      df[[col]][is.na(df[[col]])] <- median(df[[col]], na.rm = TRUE)
-      change_report <- c(change_report, paste("Missing data in column", col, "in rows:", paste(NA_rows, collapse = ", "),"replacing with a median",median(df[[col]])))
+      for (row in NA_rows) {
+        # Calculate median based on values in the same group
+        group_value <- df[[1]][row]
+        median_value <- median(df[[col]][df[[1]] == group_value], na.rm = TRUE)
+        df[[col]][row] <- median_value
+        change_report <- c(change_report, paste("Missing data in column", col, "in group", df[row,1], "replacing with a median", median_value))
+      }
     }
   }
   
   #Now every NA in numeric columns are gone
   #I delete every row with NA in non numeric column
-  TRUE_FALSE_vector<-complete.cases(df) #returns FALSE for rows with NA
-  Rows_to_delete<-which(TRUE_FALSE_vector==FALSE)
-  ready<-df[complete.cases(df),]
+  df <- df[complete.cases(df), ]
   
-  if (length(Rows_to_delete) > 0) {
-    deleted <- paste("Lack of data in non-numeric column I removed rows index:", paste(Rows_to_delete, collapse = ", "))
-    change_report<-append(change_report,deleted)
+  if (nrow(df_old) > nrow(df)) {
+    deleted <- paste("Lack of data in non-numeric column. Removed rows index:", paste(setdiff(rownames(df_old), rownames(df)), collapse = ", "))
+    change_report <- append(change_report, deleted)
   }
   
-  if(length(change_report) > 0) {
+  if (length(change_report) > 0) {
     writeLines(change_report, "raport.txt")
   }
   
-  return(ready)
-}
+  return(df)
+} 
 
 
 count_groups <- function(column) {
@@ -89,6 +92,11 @@ Outliers_detection<-function(df)
   dev.off()
 }
 
+Normal_distribution_detection<-function(df)
+{
+  
+}
+
 Descriptive_statistics<-function(df)
 {
   Outliers_detection(df)
@@ -116,7 +124,9 @@ Descriptive_statistics<-function(df)
 }
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
+data_with_NA
 data<-Remove_NA(data_with_NA)
+data
 Descriptive_statistics(data)
 
 # require(knitr)
