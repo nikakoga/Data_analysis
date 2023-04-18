@@ -10,6 +10,7 @@
 setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
 library("Hmisc")
 
+
 Replace_blank_with_NA<-function(x)
 {
   x<-replace(x,x=='',NA)
@@ -62,6 +63,8 @@ count_groups <- function(column) {
   write("\nGROPUS AND THEIR SIZE____________________\n","raport.txt",append=TRUE)
   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
   
+  
+  
 }
 
 Outliers_detection<-function(df)
@@ -107,48 +110,6 @@ Outliers_detection<-function(df)
   dev.off()
 }
 
-Homogeneity_of_variance_raport<-function(data,colname)
-{
-  p.value = shapiro.test(data)$p.value
-  if(p.value < 0.05){
-    write(paste("\n",colname,"wariancja niehomogeniczna"),"raport.txt",append=TRUE )
-  }
-}
-
-Normal_distribution_raport<-function(data,colname,groupname)
-{
-  p.value = shapiro.test(data)$p.value
-  if(p.value < 0.05){
-    write(paste(colname,groupname,"p< 0.05 - nie można założyć zgodności z rozkładem normalnym"),"raport.txt",append=TRUE )
-  }
-}
-
-Which_test_to_apply<-function(df)
-{
-  write("\n\nNORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________\n","raport.txt",append=TRUE )
-  splitted_groups<-split(df,df[1])
-  groupnames<-names(splitted_groups)
-  colnames<-names(df[,-1])
-  for(col in colnames)
-  {
-    if(is.numeric(df[[col]]))
-    {
-      
-      Homogeneity_of_variance_raport(df[[col]],col)
-      
-      for(group in groupnames)
-      {
-        
-        if(is.numeric(splitted_groups[[group]][[col]]))
-        {
-          Normal_distribution_raport(splitted_groups[[group]][[col]],col,group)
-        }
-      }
-    }
-    
-  }
-}
-
 Characteristics<-function(df)
 {
   write("\n\nCHARACTERISTICS____________________","raport.txt",append=TRUE)
@@ -174,17 +135,138 @@ Characteristics<-function(df)
 
 Descriptive_statistics<-function(df)
 {
-  Outliers_detection(df)
   count_groups(df[1])
+  Outliers_detection(df)
   Characteristics(df)
-  Which_test_to_apply(df)
+  
+}
+
+Homogenity_of_variance_raport<-function(values, groups)
+{
+  library(car)
+  
+  p.value = leveneTest(values, groups)$"Pr(>F"[1]
+  if(p.value < 0.05){
+    write(paste("\n",colname,"wariancja niehomogeniczna"),"raport.txt",append=TRUE )
+    return(FALSE)
+  }
+  return (TRUE)
+}
+
+Normal_distribution_raport<-function(data,colname,groupname)
+{
+  p.value = shapiro.test(data)$p.value
+  if(p.value < 0.05){
+    write(paste(colname,groupname,"p< 0.05 - nie można założyć zgodności z rozkładem normalnym"),"raport.txt",append=TRUE )
+    return(FALSE)
+  }
+  return (TRUE)
+}
+
+Which_test_to_apply<-function(df)
+{
+  write("\n\nNORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________\n","raport.txt",append=TRUE )
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  colnames<-names(df[,-1])
+  
+  Not_homogenic<-c()
+  Not_normal<-c()
+  
+  for(col in colnames)
+  {
+    if(is.numeric(df[[col]]))
+    {
+      if(!Homogenity_of_variance_raport(df[[col]], df[[1]]))
+      {
+        Not_homogenic<-append(Not_homogenic, col)
+      }
+      
+      for(group in groupnames)
+      {
+        
+        if(is.numeric(splitted_groups[[group]][[col]]))
+        {
+          if(!Normal_distribution_raport(splitted_groups[[group]][[col]],col,group))
+          {
+            Not_normal<-append(Not_normal,col)
+          }
+        }
+      }
+    }
+    
+  }
+  
+  return(list(Not_normal,Not_homogenic))
+}
+
+Kruskal_test<-function(dane,grupy,col)
+{
+  # kruskal.test(col ~ grupy, data = dane)
+  # pvalueKWtest <- kruskal.test(col ~ grupy, data = dane)$p.value
+  # pvalueKWtest
+  # 
+  # if(pvalueKWtest < 0.05){
+  #   write(paste(col, "Test Kruskala < 0.05 - są różnice pomiędzy grupami"),"raport.txt",append=TRUE)
+  #   return (TRUE)
+  # }else{
+  #   write(paste(col, "Test Kruskala > 0.05 - brak różnic pomiędzy grupami"),"raport.txt",append=TRUE)
+  #   return (FALSE)
+  #   
+  # }
+}
+
+Anova_test<-function(dane,grupy,col)
+{
+  # pvalue<-summary(aov(col ~ grupy,data=dane))[[1]][["Pr(>F"]][[1]]
+  # 
+  # if(pvalue<0.05)
+  # {
+  #   return (TRUE)
+  # }
+  # else{
+  #   return(FALSE)
+  # }
+}
+Apply_test<-function(df,Not_normal,Not_homogenic){
+  
+  write("\n\nCORRELATION ANALYSIS____________________","raport.txt",append=TRUE)
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  
+  colnames<-names(df[,-1])
+  
+  for(col in colnames)
+  {
+      if(is.numeric(df[[col]]))
+      {
+        if(group_number>2)
+        {
+          if(col %in% Not_normal||col %in% Not_homogenic)
+          {
+            Kruskal_test(df,groupnames,col)
+          }
+          
+        }
+        else
+        {
+          
+        }
+    }
+  }
+}
+
+Correlation_analysis<-function(df)
+{
+  Result<-Which_test_to_apply(df)
+  Not_normal<-Result[1]
+  Not_homogenic<-Result[2]
 }
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
-data_with_NA
 data<-Remove_NA(data_with_NA)
-data
 Descriptive_statistics(data)
+Correlation_analysis(data)
 
 # require(knitr)
 # my_text <- "Hello pls start working"

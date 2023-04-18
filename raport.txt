@@ -4,6 +4,12 @@ Missing data in column MON in group CHOR1 replacing with a median 0.76
 Missing data in column LEU in group CHOR1 replacing with a median 11.32
 Lack of data in non-numeric column. Removed rows index: 50, 74, 75
 
+GROPUS AND THEIR SIZE____________________
+
+"CHOR1" 25
+"CHOR2" 24
+"KONTROLA" 23
+
 
 OUTLIERS____________________
 
@@ -53,12 +59,6 @@ LEU CHOR2 16.59
 LEU KONTROLA no outliners 
 
 
-
-GROPUS AND THEIR SIZE____________________
-
-"CHOR1" 25
-"CHOR2" 24
-"KONTROLA" 23
 
 
 CHARACTERISTICS____________________
@@ -228,25 +228,13 @@ CHARACTERISTICS____________________
 
 NORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________
 
-
- hsCRP wariancja niehomogeniczna
 hsCRP CHOR1 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
 hsCRP CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
 hsCRP KONTROLA p< 0.05 - nie można założyć zgodności z rozkładem normalnym
-
- ERY wariancja niehomogeniczna
 ERY CHOR1 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
-
- PLT wariancja niehomogeniczna
 PLT CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
 PLT KONTROLA p< 0.05 - nie można założyć zgodności z rozkładem normalnym
-
- HGB wariancja niehomogeniczna
 HGB CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
-
- HCT wariancja niehomogeniczna
 HCT CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
-
- MON wariancja niehomogeniczna
 MON CHOR1 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
 MON CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
