@@ -66,29 +66,46 @@ count_groups <- function(column) {
 
 Outliers_detection<-function(df)
 {
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  
   write("\n\nOUTLIERS\n","raport.txt",append=TRUE)
+  
   pdf(file= "Outliers.pdf" )
-  for(col in names(df))
+  
+  
+  colnames<-names(df[,-1])
+  for(col in colnames)
   {
-    if(is.numeric(df[[col]]))
+    for(group in groupnames)
     {
-      #TESTY
-      boxplot(df[[col]],
-              ylab = col)
-      outliers<-boxplot.stats(df[[col]])$out
-      mtext(paste("Outliers: ", paste(outliers, collapse = ", ")))
-      
-     
-      if(length(outliers)>0)
+      if(is.numeric(splitted_groups[[group]][[col]]))
       {
-        capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
-      }
-      else
-      {
-        capture.output(cat(col,"no outliners","\n"), file = "raport.txt",append=TRUE)
+        par(mfrow = c(1, length(splitted_groups)))
+        boxplot(splitted_groups[[group]][[col]],
+                ylab = paste(group,col))
+        outliers<-boxplot.stats(splitted_groups[[group]][[col]])$out
+        mtext(paste("Outliers: ", paste(outliers, collapse = ", ")))
+        
+        
+        if(length(outliers)>0)
+        {
+          capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
+        }
+        else
+        {
+          capture.output(cat(col,"no outliners","\n"), file = "raport.txt",append=TRUE)
+        }
+        
       }
     }
   }
+  
+    
+      
+      
+    
+  
   dev.off()
 }
 

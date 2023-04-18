@@ -7,14 +7,32 @@ Lack of data in non-numeric column. Removed rows index: 50, 74, 75
 
 OUTLIERS
 
+wiek 43 
+wiek no outliners 
 wiek 48 
-hsCRP 20.1548 16.4069 42.6499 19.2124 14.3951 13.8106 
+hsCRP 20.1548 16.4069 42.6499 
+hsCRP 19.2124 
+hsCRP 14.3951 13.8106 
 ERY 33 
-PLT 456 434 
+ERY no outliners 
+ERY 5.05 3.13 
+PLT no outliners 
+PLT 456 314 311 
+PLT 434 
+HGB 9.5049 
 HGB 22.2318 
+HGB no outliners 
+HCT 0.28 
 HCT 0.0423 
-MCHC 38.8674 38.203 32.0573 
-MON 1.5 1.52 0.14 1.61 7 
+HCT no outliners 
+MCHC 32.5556 
+MCHC 38.8674 32.8878 38.203 
+MCHC no outliners 
+MON no outliners 
+MON 1.61 7 
+MON 1.25 0.35 
+LEU no outliners 
+LEU 16.59 
 LEU no outliners 
 
 GROPUS AND THEIR SIZE
