@@ -59,7 +59,7 @@ count_groups <- function(column) {
   
   df <- data.frame(ID = names(counts), count = as.numeric(counts))
   df
-  write("\nGROPUS AND THEIR SIZE\n","raport.txt",append=TRUE)
+  write("\nGROPUS AND THEIR SIZE____________________\n","raport.txt",append=TRUE)
   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
   
 }
@@ -69,57 +69,89 @@ Outliers_detection<-function(df)
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
   
-  write("\n\nOUTLIERS\n","raport.txt",append=TRUE)
+  write("\n\nOUTLIERS____________________","raport.txt",append=TRUE)
   
   pdf(file= "Outliers.pdf" )
   
   
   colnames<-names(df[,-1])
+  par(mfrow = c(1, length(splitted_groups)))
   for(col in colnames)
   {
     for(group in groupnames)
     {
       if(is.numeric(splitted_groups[[group]][[col]]))
       {
-        par(mfrow = c(1, length(splitted_groups)))
+        
         boxplot(splitted_groups[[group]][[col]],
-                ylab = paste(group,col))
+                xlab=group,
+                ylab = col)
         outliers<-boxplot.stats(splitted_groups[[group]][[col]])$out
         mtext(paste("Outliers: ", paste(outliers, collapse = ", ")))
         
         
         if(length(outliers)>0)
         {
-          capture.output(cat(col,outliers,"\n"), file = "raport.txt",append=TRUE)
+          capture.output(cat(col,group,outliers,"\n"), file = "raport.txt",append=TRUE)
         }
         else
         {
-          capture.output(cat(col,"no outliners","\n"), file = "raport.txt",append=TRUE)
+          capture.output(cat(col,group,"no outliners","\n"), file = "raport.txt",append=TRUE)
         }
         
       }
     }
+    write("\n","raport.txt",append = TRUE)
   }
-  
-    
-      
-      
-    
   
   dev.off()
 }
 
-Normal_distribution_detection<-function(df)
+Homogeneity_of_variance_raport<-function(data,colname)
 {
-  
+  p.value = shapiro.test(data)$p.value
+  if(p.value < 0.05){
+    write(paste("\n",colname,"wariancja niehomogeniczna"),"raport.txt",append=TRUE )
+  }
 }
 
-Descriptive_statistics<-function(df)
+Normal_distribution_raport<-function(data,colname,groupname)
 {
-  Outliers_detection(df)
-  count_groups(df[1])
-  write("\n\nCHARACTERISTICS","raport.txt",append=TRUE)
-  
+  p.value = shapiro.test(data)$p.value
+  if(p.value < 0.05){
+    write(paste(colname,groupname,"p< 0.05 - nie można założyć zgodności z rozkładem normalnym"),"raport.txt",append=TRUE )
+  }
+}
+
+Which_test_to_apply<-function(df)
+{
+  write("\n\nNORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________\n","raport.txt",append=TRUE )
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  colnames<-names(df[,-1])
+  for(col in colnames)
+  {
+    if(is.numeric(df[[col]]))
+    {
+      
+      Homogeneity_of_variance_raport(df[[col]],col)
+      
+      for(group in groupnames)
+      {
+        
+        if(is.numeric(splitted_groups[[group]][[col]]))
+        {
+          Normal_distribution_raport(splitted_groups[[group]][[col]],col,group)
+        }
+      }
+    }
+    
+  }
+}
+
+Characteristics<-function(df)
+{
+  write("\n\nCHARACTERISTICS____________________","raport.txt",append=TRUE)
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
   
@@ -138,6 +170,14 @@ Descriptive_statistics<-function(df)
       }
     }
   }
+}
+
+Descriptive_statistics<-function(df)
+{
+  Outliers_detection(df)
+  count_groups(df[1])
+  Characteristics(df)
+  Which_test_to_apply(df)
 }
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)

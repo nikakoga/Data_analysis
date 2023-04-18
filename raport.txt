@@ -5,44 +5,63 @@ Missing data in column LEU in group CHOR1 replacing with a median 11.32
 Lack of data in non-numeric column. Removed rows index: 50, 74, 75
 
 
-OUTLIERS
+OUTLIERS____________________
 
-wiek 43 
-wiek no outliners 
-wiek 48 
-hsCRP 20.1548 16.4069 42.6499 
-hsCRP 19.2124 
-hsCRP 14.3951 13.8106 
-ERY 33 
-ERY no outliners 
-ERY 5.05 3.13 
-PLT no outliners 
-PLT 456 314 311 
-PLT 434 
-HGB 9.5049 
-HGB 22.2318 
-HGB no outliners 
-HCT 0.28 
-HCT 0.0423 
-HCT no outliners 
-MCHC 32.5556 
-MCHC 38.8674 32.8878 38.203 
-MCHC no outliners 
-MON no outliners 
-MON 1.61 7 
-MON 1.25 0.35 
-LEU no outliners 
-LEU 16.59 
-LEU no outliners 
 
-GROPUS AND THEIR SIZE
+wiek CHOR1 43 
+wiek CHOR2 no outliners 
+wiek KONTROLA 48 
+
+
+hsCRP CHOR1 20.1548 16.4069 42.6499 
+hsCRP CHOR2 19.2124 
+hsCRP KONTROLA 14.3951 13.8106 
+
+
+ERY CHOR1 33 
+ERY CHOR2 no outliners 
+ERY KONTROLA 5.05 3.13 
+
+
+PLT CHOR1 no outliners 
+PLT CHOR2 456 314 311 
+PLT KONTROLA 434 
+
+
+HGB CHOR1 9.5049 
+HGB CHOR2 22.2318 
+HGB KONTROLA no outliners 
+
+
+HCT CHOR1 0.28 
+HCT CHOR2 0.0423 
+HCT KONTROLA no outliners 
+
+
+MCHC CHOR1 32.5556 
+MCHC CHOR2 38.8674 32.8878 38.203 
+MCHC KONTROLA no outliners 
+
+
+MON CHOR1 no outliners 
+MON CHOR2 1.61 7 
+MON KONTROLA 1.25 0.35 
+
+
+LEU CHOR1 no outliners 
+LEU CHOR2 16.59 
+LEU KONTROLA no outliners 
+
+
+
+GROPUS AND THEIR SIZE____________________
 
 "CHOR1" 25
 "CHOR2" 24
 "KONTROLA" 23
 
 
-CHARACTERISTICS
+CHARACTERISTICS____________________
 
 
  CHOR1 
@@ -205,3 +224,29 @@ CHARACTERISTICS
  LEU
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    4.83    9.17   10.68   11.32   13.65   17.46 
+
+
+NORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________
+
+
+ hsCRP wariancja niehomogeniczna
+hsCRP CHOR1 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+hsCRP CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+hsCRP KONTROLA p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+
+ ERY wariancja niehomogeniczna
+ERY CHOR1 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+
+ PLT wariancja niehomogeniczna
+PLT CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+PLT KONTROLA p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+
+ HGB wariancja niehomogeniczna
+HGB CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+
+ HCT wariancja niehomogeniczna
+HCT CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+
+ MON wariancja niehomogeniczna
+MON CHOR1 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
+MON CHOR2 p< 0.05 - nie można założyć zgodności z rozkładem normalnym
