@@ -201,6 +201,7 @@ Density_normal_and_homogenic_info<-function(df)
                     xlab = col
           )
           print(p)
+          
         }
       }
     }
@@ -339,8 +340,39 @@ Statistics_tests<-function(df)
   Apply_test(df,Normal,Homogenic)
 }
 
+Correlation_analysis<-function(df)
+{
+  
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  colnames<-names(df[,-1])
+  
+  for (group in groupnames)
+  {
+    sorted <- subset(df, df[[1]] == group)
+    
+    for(i in 1:(ncol(sorted)-1)){
+      
+      if(is.numeric(df[[i]])){
+        
+        for(j in (i+1):ncol(sorted)){
+          
+          if(is.numeric(df[[j]]))
+          {
+            res <- cor.test(sorted[,i], sorted[,j],method="spearman")
+            
+            write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ", round(res$estimate, 2), ", p-wartość: ", round(res$p.value, 3)),"raport.txt",append=TRUE)
+          }
+        }
+        write("\n","raport.txt",append=TRUE)
+      }
+    }
+  }
+}
+
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
 Statistics_tests(data)
+Correlation_analysis(data)
 
