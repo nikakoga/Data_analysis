@@ -9,6 +9,7 @@
 
 setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
 library("Hmisc")
+library("ggpubr")
 
 
 Replace_blank_with_NA<-function(x)
@@ -61,9 +62,7 @@ count_groups <- function(column) {
   df
   write("\nGROPUS AND THEIR SIZE____________________\n","raport.txt",append=TRUE)
   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
-  
-  
-  
+
 }
 
 Outliers_detection<-function(df)
@@ -166,6 +165,7 @@ Normal_distribution_raport<-function(value,groups,colname)
 
 Which_test_to_apply<-function(df)
 {
+  library("ggpubr")
   write("\n\nNORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________\n","raport.txt",append=TRUE )
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
@@ -174,6 +174,9 @@ Which_test_to_apply<-function(df)
   Homogenic<-c()
   Not_Normal<-c()
   
+  pdf(file= "Density.pdf" )
+  par(mfrow = c(1, length(splitted_groups)))
+
   for(col in colnames)
   {
     if(is.numeric(df[[col]]))
@@ -192,12 +195,19 @@ Which_test_to_apply<-function(df)
           {
             Not_Normal<-append(Not_Normal,col)
           }
+          p<-ggdensity(df[df[[1]] == group, ],
+                    x = col,
+                    main = paste(col, group, sep = " "),
+                    xlab = col
+          )
+          print(p)
         }
       }
     }
     
   }
   
+  dev.off()
   
   return(list(Not_Normal,Homogenic))
 }
@@ -274,7 +284,42 @@ Apply_test<-function(df,Normal,Homogenic)
             Kruskal_test(df[[1]],df[[col]])
           }
         }
+        if(group_number==2){
+          if(col %in% Normal & col %in% Homogenic){
+            T_Student(df[[1]],df[[col]])
+          }
+          else{
+            Welch(df[[1]],df[[col]])
+          }
+        }
     }
+  }
+}
+
+T_Student<-function(groups, values)
+{
+  res<-t.test(values~groups, var.equal = TRUE)
+  if (res$p.value < 0.05) {
+    write(paste("Test T-Studenta", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    return (TRUE)
+  }
+  else{
+    write(paste("Test T-Studenta", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    return(FALSE)
+  }
+}
+
+
+Welch<-function(groups, values)
+{
+  res<-t.test(values~groups, var.equal = FALSE)
+  if (res$p.value < 0.05) {
+    write(paste("Test Welcha", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    return (TRUE)
+  }
+  else{
+    write(paste("Test Welcha", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    return(FALSE)
   }
 }
 
