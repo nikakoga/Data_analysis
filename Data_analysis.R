@@ -52,7 +52,6 @@ Remove_NA <- function(df_old) {
   return(df)
 } 
 
-
 count_groups <- function(column) {
   unique_elements <- unique(column)
   num_unique <- length(unique_elements)
@@ -141,25 +140,27 @@ Descriptive_statistics<-function(df)
   
 }
 
-Homogenity_of_variance_raport<-function(values, groups)
+Homogenity_of_variance_raport<-function(values, groups,colname)
 {
   library(car)
   
   p.value = leveneTest(values, groups)$"Pr(>F"[1]
   if(p.value < 0.05){
-    write(paste("\n",colname,"wariancja niehomogeniczna"),"raport.txt",append=TRUE )
+    write(paste("\n",colname,"\n","wariancja niehomogeniczna"),"raport.txt",append=TRUE )
     return(FALSE)
   }
-  return (TRUE)
+    write(paste("\n",colname,"\nwariancja homogeniczna"),"raport.txt",append=TRUE )
+    return (TRUE)
 }
 
-Normal_distribution_raport<-function(data,colname,groupname)
+Normal_distribution_raport<-function(value,groups,colname)
 {
-  p.value = shapiro.test(data)$p.value
+  p.value = shapiro.test(value)$p.value
   if(p.value < 0.05){
-    write(paste(colname,groupname,"p< 0.05 - nie można założyć zgodności z rozkładem normalnym"),"raport.txt",append=TRUE )
+    write(paste(colname,groups,"p < 0.05 - nie można założyć zgodności z rozkładem normalnym"),"raport.txt",append=TRUE )
     return(FALSE)
   }
+  write(paste(colname,groups,"p > 0.05 - można założyć zgodność z rozkładem normalnym"),"raport.txt",append=TRUE )
   return (TRUE)
 }
 
@@ -170,16 +171,16 @@ Which_test_to_apply<-function(df)
   groupnames<-names(splitted_groups)
   colnames<-names(df[,-1])
   
-  Not_homogenic<-c()
-  Not_normal<-c()
+  Homogenic<-c()
+  Not_Normal<-c()
   
   for(col in colnames)
   {
     if(is.numeric(df[[col]]))
     {
-      if(!Homogenity_of_variance_raport(df[[col]], df[[1]]))
+      if(Homogenity_of_variance_raport(df[[col]], df[[1]],col))
       {
-        Not_homogenic<-append(Not_homogenic, col)
+        Homogenic<-append(Homogenic,col)
       }
       
       for(group in groupnames)
@@ -189,7 +190,7 @@ Which_test_to_apply<-function(df)
         {
           if(!Normal_distribution_raport(splitted_groups[[group]][[col]],col,group))
           {
-            Not_normal<-append(Not_normal,col)
+            Not_Normal<-append(Not_Normal,col)
           }
         }
       }
@@ -197,42 +198,63 @@ Which_test_to_apply<-function(df)
     
   }
   
-  return(list(Not_normal,Not_homogenic))
+  
+  return(list(Not_Normal,Homogenic))
 }
 
-Kruskal_test<-function(dane,grupy,col)
+Kruskal_test<-function(groups,values)
 {
-  # kruskal.test(col ~ grupy, data = dane)
-  # pvalueKWtest <- kruskal.test(col ~ grupy, data = dane)$p.value
-  # pvalueKWtest
-  # 
-  # if(pvalueKWtest < 0.05){
-  #   write(paste(col, "Test Kruskala < 0.05 - są różnice pomiędzy grupami"),"raport.txt",append=TRUE)
-  #   return (TRUE)
-  # }else{
-  #   write(paste(col, "Test Kruskala > 0.05 - brak różnic pomiędzy grupami"),"raport.txt",append=TRUE)
-  #   return (FALSE)
-  #   
-  # }
+  p.value <- kruskal.test(values, groups)$p.value
+ 
+  if(p.value < 0.05){
+    write(paste("Test Kruskala",round(p.value,3),"< 0.05 - są różnice pomiędzy grupami"),"raport.txt",append=TRUE)
+    Dunn_test(groups,values)
+    return (TRUE)
+  }else{
+    write(paste("Test Kruskala",round(p.value,3), "> 0.05 - brak różnic pomiędzy grupami"),"raport.txt",append=TRUE)
+    return (FALSE)
+  }
 }
 
-Anova_test<-function(dane,grupy,col)
+Dunn_test<-function(groups,values)
 {
-  # pvalue<-summary(aov(col ~ grupy,data=dane))[[1]][["Pr(>F"]][[1]]
-  # 
-  # if(pvalue<0.05)
-  # {
-  #   return (TRUE)
-  # }
-  # else{
-  #   return(FALSE)
-  # }
+  library("dunn.test")
+  library("FSA")
+  res<-dunnTest(values~groups)
+  for (row in 1:nrow(res$res)) {
+    p.value <- res$res[row, "P.adj"]
+    groupsCompared  <- res$res[row, "Comparison"]
+    
+    if (p.value < 0.05){
+      write(paste("Test Dunna",round(p.value,3),"< 0.05 - są różnice pomiędzy grupami ", groupsCompared),"raport.txt",append=TRUE)
+    } else {
+      #write(paste("Test Dunna",round(p.value,3), "> 0.05 - brak różnic pomiędzy grupami ", groupsCompared),"raport.txt",append=TRUE)
+    }
+  }
 }
-Apply_test<-function(df,Not_normal,Not_homogenic){
+
+Anova_test<-function(groups,values)
+{
+  p.value<-summary(aov(values~groups))[[1]][["Pr(>F)"]][[1]]
+
+  if(p.value<0.05)
+  {
+    write(paste("Test Anova", round(p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    return (TRUE)
+  }
+  else{
+    write(paste("Test Anova", round(p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    return(FALSE)
+  }
+}
+
+Apply_test<-function(df,Normal,Homogenic)
+{
   
   write("\n\nCORRELATION ANALYSIS____________________","raport.txt",append=TRUE)
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
+  group_number <- length(groupnames)
   
   colnames<-names(df[,-1])
   
@@ -240,17 +262,17 @@ Apply_test<-function(df,Not_normal,Not_homogenic){
   {
       if(is.numeric(df[[col]]))
       {
+        write(paste("\n",col),"raport.txt",append=TRUE)
         if(group_number>2)
         {
-          if(col %in% Not_normal||col %in% Not_homogenic)
+          if(col %in% Normal & col %in% Homogenic)
           {
-            Kruskal_test(df,groupnames,col)
+            Anova_test(df[[1]],df[[col]])
           }
-          
-        }
-        else
-        {
-          
+          else
+          {
+            Kruskal_test(df[[1]],df[[col]])
+          }
         }
     }
   }
@@ -258,9 +280,19 @@ Apply_test<-function(df,Not_normal,Not_homogenic){
 
 Correlation_analysis<-function(df)
 {
+  colnames<-list(names(df[,-1]))
+  
   Result<-Which_test_to_apply(df)
-  Not_normal<-Result[1]
-  Not_homogenic<-Result[2]
+  Not_Normal<-as.list(unique((Result)[1][[1]]))
+  Normal<- as.list(setdiff(colnames[[1]], Not_Normal))
+  Homogenic<-as.list(unique((Result[2])[[1]]))
+  # FYI
+  # write(paste("\n\nNOT_NORMAL",list(Not_Normal)),"raport.txt",append=TRUE)
+  # write(paste("\n\nALL",colnames),"raport.txt",append=TRUE)
+  # write(paste("\n\nNORMAL",list(Normal)),"raport.txt",append=TRUE)
+  # write(paste("\n\nHOMOGENIC",list(Homogenic)),"raport.txt",append=TRUE)
+  
+  Apply_test(df,Normal,Homogenic)
 }
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
@@ -289,6 +321,3 @@ Correlation_analysis(data)
 # 
 # # usuwamy obiekt R
 # pdf_close(pdf)
-
-
-
