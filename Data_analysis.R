@@ -163,7 +163,7 @@ Normal_distribution_raport<-function(value,groups,colname)
   return (TRUE)
 }
 
-Which_test_to_apply<-function(df)
+Density_normal_and_homogenic_info<-function(df)
 {
   library("ggpubr")
   write("\n\nNORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________\n","raport.txt",append=TRUE )
@@ -323,11 +323,11 @@ Welch<-function(groups, values)
   }
 }
 
-Correlation_analysis<-function(df)
+Statistics_tests<-function(df)
 {
   colnames<-list(names(df[,-1]))
   
-  Result<-Which_test_to_apply(df)
+  Result<-Density_normal_and_homogenic_info(df)
   Not_Normal<-as.list(unique((Result)[1][[1]]))
   Normal<- as.list(setdiff(colnames[[1]], Not_Normal))
   Homogenic<-as.list(unique((Result[2])[[1]]))
@@ -336,33 +336,11 @@ Correlation_analysis<-function(df)
   # write(paste("\n\nALL",colnames),"raport.txt",append=TRUE)
   # write(paste("\n\nNORMAL",list(Normal)),"raport.txt",append=TRUE)
   # write(paste("\n\nHOMOGENIC",list(Homogenic)),"raport.txt",append=TRUE)
-  
   Apply_test(df,Normal,Homogenic)
 }
 
 data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
-Correlation_analysis(data)
+Statistics_tests(data)
 
-# require(knitr)
-# my_text <- "Hello pls start working"
-# knit(text = my_text, output = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.pdf")
-# 
-# install.packages("pdftools")
-# library(pdftools)
-# my_pdf<-"C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt/TEST.pdf"
-# my_picture<-"C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt/OBRAZ.jpg"
-# 
-# 
-# # konwertujemy plik PDF na obiekt R
-# pdf <- pdf_convert(my_pdf)
-# 
-# # wstawiamy obraz
-# pdf <- pdf_insert_image(pdf, "OBRAZ.jpg", page = n_pages(pdf)+1)
-# 
-# # zapisujemy zmodyfikowany plik PDF
-# pdf_save(pdf, "TEST.pdf")
-# 
-# # usuwamy obiekt R
-# pdf_close(pdf)
