@@ -355,7 +355,7 @@ Correlation_analysis<-function(df)
                        cor.coef = TRUE, cor.method = "spearman",
                        xlab=x_col,
                        ylab=y_col,
-                       main = paste(x_col, " vs. ", y_col)
+                       main = paste(group,"\n",x_col, " vs. ", y_col)
                        )
              print(p)
              

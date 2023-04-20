@@ -385,7 +385,7 @@ Komunikaty ostrzegawcze:
 +                        cor.coef = TRUE, cor.method = "spearman",
 +                        xlab=x_col,
 +                        ylab=y_col,
-+                        main = paste(x_col, " vs. ", y_col)
++                        main = paste(group,"\n",x_col, " vs. ", y_col)
 +                        )
 +              print(p)
 +              
@@ -460,4 +460,4 @@ Było 50 lub więcej ostrzeżeń (użyj 'warnings()' aby zobaczyć pierwsze 50)
 > 
 > proc.time()
 użytkownik     system   upłynęło 
-      9.57       0.50      10.61 
+      8.60       0.50       9.28 
