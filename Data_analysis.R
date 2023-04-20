@@ -360,11 +360,50 @@ Correlation_analysis<-function(df)
           if(is.numeric(df[[j]]))
           {
             res <- cor.test(sorted[,i], sorted[,j],method="spearman")
+            if(res$p.value<0.05)
+            {
+              r<-res$estimate
+              if(r > 0.7 & r < 1)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Bardzo silna korelacja dodatnia"),"raport.txt",append=TRUE)
+              }
+              if(r >= 0.5 & r < 0.7)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Silna korelacja dodatnia"),"raport.txt",append=TRUE)
+              }
+              if(r >= 0.3 & r < 0.5)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Korelacja dodatnia o średnim natężeniu"),"raport.txt",append=TRUE)
+              }
+              if(r >= 0.2 & r < 0.3)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Słaba korelacja dodatnia"),"raport.txt",append=TRUE)
+              }
+              # if(r >= -0.2 & r <= 0.2)
+              # {
+              #   write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Brak korelacji"),"raport.txt",append=TRUE)
+              # }
+              if(r > -0.3 & r < -0.2)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Słaba korelacja ujemna"),"raport.txt",append=TRUE)
+              }
+              if(r > -0.5 & r <= -0.3)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Korelacja ujemna o średnim natężeniu"),"raport.txt",append=TRUE)
+              }
+              if(r > -0.7 & r <= -0.5)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Silna korelacja ujemna"),"raport.txt",append=TRUE)
+              }
+              if(r > -1 & r <= -0.7)
+              {
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Bardzo silna korelacja ujemna"),"raport.txt",append=TRUE)
+              }
+
+            }
+            }
             
-            write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ", round(res$estimate, 2), ", p-wartość: ", round(res$p.value, 3)),"raport.txt",append=TRUE)
-          }
         }
-        write("\n","raport.txt",append=TRUE)
       }
     }
   }
@@ -375,4 +414,5 @@ data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
 Statistics_tests(data)
 Correlation_analysis(data)
+
 

@@ -313,159 +313,21 @@ Test Kruskala 0.27 > 0.05 - brak różnic pomiędzy grupami
 
  LEU
 Test Anova 0.6 > 0.05 - brak różnic pomiędzy grupami
-wiek  i  hsCRP :  0.22 , p-wartość:  0.3
-wiek  i  ERY :  -0.1 , p-wartość:  0.634
-wiek  i  PLT :  0.2 , p-wartość:  0.337
-wiek  i  HGB :  -0.11 , p-wartość:  0.59
-wiek  i  HCT :  -0.12 , p-wartość:  0.561
-wiek  i  MCHC :  -0.32 , p-wartość:  0.12
-wiek  i  MON :  -0.15 , p-wartość:  0.487
-wiek  i  LEU :  0.05 , p-wartość:  0.825
-
-
-hsCRP  i  ERY :  0.17 , p-wartość:  0.413
-hsCRP  i  PLT :  -0.06 , p-wartość:  0.781
-hsCRP  i  HGB :  -0.13 , p-wartość:  0.531
-hsCRP  i  HCT :  -0.14 , p-wartość:  0.519
-hsCRP  i  MCHC :  0.15 , p-wartość:  0.487
-hsCRP  i  MON :  0.39 , p-wartość:  0.056
-hsCRP  i  LEU :  0.27 , p-wartość:  0.195
-
-
-ERY  i  PLT :  0.15 , p-wartość:  0.488
-ERY  i  HGB :  0.64 , p-wartość:  0.001
-ERY  i  HCT :  0.62 , p-wartość:  0.001
-ERY  i  MCHC :  0.37 , p-wartość:  0.069
-ERY  i  MON :  -0.36 , p-wartość:  0.078
-ERY  i  LEU :  0.07 , p-wartość:  0.752
-
-
-PLT  i  HGB :  -0.18 , p-wartość:  0.395
-PLT  i  HCT :  -0.12 , p-wartość:  0.568
-PLT  i  MCHC :  -0.23 , p-wartość:  0.269
-PLT  i  MON :  -0.04 , p-wartość:  0.848
-PLT  i  LEU :  0.12 , p-wartość:  0.574
-
-
-HGB  i  HCT :  0.95 , p-wartość:  0
-HGB  i  MCHC :  0.58 , p-wartość:  0.003
-HGB  i  MON :  -0.28 , p-wartość:  0.18
-HGB  i  LEU :  0.02 , p-wartość:  0.936
-
-
-HCT  i  MCHC :  0.42 , p-wartość:  0.038
-HCT  i  MON :  -0.28 , p-wartość:  0.174
-HCT  i  LEU :  -0.04 , p-wartość:  0.851
-
-
-MCHC  i  MON :  0.11 , p-wartość:  0.591
-MCHC  i  LEU :  0.17 , p-wartość:  0.424
-
-
-MON  i  LEU :  0.37 , p-wartość:  0.072
-
-
-wiek  i  hsCRP :  -0.1 , p-wartość:  0.633
-wiek  i  ERY :  0.14 , p-wartość:  0.507
-wiek  i  PLT :  -0.21 , p-wartość:  0.321
-wiek  i  HGB :  0.28 , p-wartość:  0.17
-wiek  i  HCT :  0.06 , p-wartość:  0.789
-wiek  i  MCHC :  0.1 , p-wartość:  0.648
-wiek  i  MON :  -0.06 , p-wartość:  0.791
-wiek  i  LEU :  -0.3 , p-wartość:  0.15
-
-
-hsCRP  i  ERY :  0.1 , p-wartość:  0.633
-hsCRP  i  PLT :  0.23 , p-wartość:  0.26
-hsCRP  i  HGB :  -0.03 , p-wartość:  0.879
-hsCRP  i  HCT :  -0.01 , p-wartość:  0.962
-hsCRP  i  MCHC :  -0.11 , p-wartość:  0.602
-hsCRP  i  MON :  0 , p-wartość:  0.988
-hsCRP  i  LEU :  0.12 , p-wartość:  0.578
-
-
-ERY  i  PLT :  0.08 , p-wartość:  0.704
-ERY  i  HGB :  0.88 , p-wartość:  0
-ERY  i  HCT :  0.75 , p-wartość:  0
-ERY  i  MCHC :  0 , p-wartość:  1
-ERY  i  MON :  -0.34 , p-wartość:  0.1
-ERY  i  LEU :  0.27 , p-wartość:  0.199
-
-
-PLT  i  HGB :  -0.06 , p-wartość:  0.775
-PLT  i  HCT :  0.05 , p-wartość:  0.818
-PLT  i  MCHC :  -0.52 , p-wartość:  0.008
-PLT  i  MON :  -0.03 , p-wartość:  0.872
-PLT  i  LEU :  0.21 , p-wartość:  0.309
-
-
-HGB  i  HCT :  0.74 , p-wartość:  0
-HGB  i  MCHC :  0.21 , p-wartość:  0.309
-HGB  i  MON :  -0.37 , p-wartość:  0.067
-HGB  i  LEU :  0.3 , p-wartość:  0.143
-
-
-HCT  i  MCHC :  0.09 , p-wartość:  0.676
-HCT  i  MON :  -0.18 , p-wartość:  0.399
-HCT  i  LEU :  0.27 , p-wartość:  0.19
-
-
-MCHC  i  MON :  -0.29 , p-wartość:  0.164
-MCHC  i  LEU :  0.1 , p-wartość:  0.633
-
-
-MON  i  LEU :  -0.1 , p-wartość:  0.634
-
-
-wiek  i  hsCRP :  -0.2 , p-wartość:  0.343
-wiek  i  ERY :  0.56 , p-wartość:  0.003
-wiek  i  PLT :  0.26 , p-wartość:  0.203
-wiek  i  HGB :  0.22 , p-wartość:  0.293
-wiek  i  HCT :  0.33 , p-wartość:  0.104
-wiek  i  MCHC :  -0.41 , p-wartość:  0.043
-wiek  i  MON :  -0.06 , p-wartość:  0.763
-wiek  i  LEU :  -0.52 , p-wartość:  0.008
-
-
-hsCRP  i  ERY :  0.29 , p-wartość:  0.161
-hsCRP  i  PLT :  0.13 , p-wartość:  0.531
-hsCRP  i  HGB :  0.16 , p-wartość:  0.444
-hsCRP  i  HCT :  0.24 , p-wartość:  0.247
-hsCRP  i  MCHC :  -0.2 , p-wartość:  0.329
-hsCRP  i  MON :  -0.01 , p-wartość:  0.978
-hsCRP  i  LEU :  0.43 , p-wartość:  0.035
-
-
-ERY  i  PLT :  0.45 , p-wartość:  0.023
-ERY  i  HGB :  0.51 , p-wartość:  0.01
-ERY  i  HCT :  0.68 , p-wartość:  0
-ERY  i  MCHC :  -0.51 , p-wartość:  0.009
-ERY  i  MON :  -0.13 , p-wartość:  0.529
-ERY  i  LEU :  -0.14 , p-wartość:  0.502
-
-
-PLT  i  HGB :  0.29 , p-wartość:  0.161
-PLT  i  HCT :  0.38 , p-wartość:  0.062
-PLT  i  MCHC :  -0.32 , p-wartość:  0.113
-PLT  i  MON :  0.15 , p-wartość:  0.481
-PLT  i  LEU :  0.13 , p-wartość:  0.544
-
-
-HGB  i  HCT :  0.92 , p-wartość:  0
-HGB  i  MCHC :  0.24 , p-wartość:  0.255
-HGB  i  MON :  -0.3 , p-wartość:  0.14
-HGB  i  LEU :  -0.35 , p-wartość:  0.088
-
-
-HCT  i  MCHC :  -0.08 , p-wartość:  0.691
-HCT  i  MON :  -0.22 , p-wartość:  0.284
-HCT  i  LEU :  -0.33 , p-wartość:  0.107
-
-
-MCHC  i  MON :  0 , p-wartość:  0.998
-MCHC  i  LEU :  0.05 , p-wartość:  0.828
-
-
-MON  i  LEU :  0.39 , p-wartość:  0.056
-
-
+ERY  i  HGB :  Silna korelacja dodatnia
+ERY  i  HCT :  Silna korelacja dodatnia
+HGB  i  HCT :  Bardzo silna korelacja dodatnia
+HGB  i  MCHC :  Silna korelacja dodatnia
+HCT  i  MCHC :  Korelacja dodatnia o średnim natężeniu
+ERY  i  HGB :  Bardzo silna korelacja dodatnia
+ERY  i  HCT :  Bardzo silna korelacja dodatnia
+PLT  i  MCHC :  Silna korelacja ujemna
+HGB  i  HCT :  Bardzo silna korelacja dodatnia
+wiek  i  ERY :  Silna korelacja dodatnia
+wiek  i  MCHC :  Korelacja ujemna o średnim natężeniu
+wiek  i  LEU :  Silna korelacja ujemna
+hsCRP  i  LEU :  Korelacja dodatnia o średnim natężeniu
+ERY  i  PLT :  Korelacja dodatnia o średnim natężeniu
+ERY  i  HGB :  Silna korelacja dodatnia
+ERY  i  HCT :  Silna korelacja dodatnia
+ERY  i  MCHC :  Silna korelacja ujemna
+HGB  i  HCT :  Bardzo silna korelacja dodatnia
