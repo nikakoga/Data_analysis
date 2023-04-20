@@ -145,10 +145,10 @@ Homogenity_of_variance_raport<-function(values, groups,colname)
   
   p.value = leveneTest(values, groups)$"Pr(>F"[1]
   if(p.value < 0.05){
-    write(paste("\n",colname,"\n","wariancja niehomogeniczna"),"raport.txt",append=TRUE )
+    write(paste("\n",colname,"\n","non-homogeneous variance"),"raport.txt",append=TRUE )
     return(FALSE)
   }
-    write(paste("\n",colname,"\nwariancja homogeniczna"),"raport.txt",append=TRUE )
+    write(paste("\n",colname,"\nhomogeneous variance"),"raport.txt",append=TRUE )
     return (TRUE)
 }
 
@@ -156,10 +156,10 @@ Normal_distribution_raport<-function(value,groups,colname)
 {
   p.value = shapiro.test(value)$p.value
   if(p.value < 0.05){
-    write(paste(colname,groups,"p < 0.05 - nie można założyć zgodności z rozkładem normalnym"),"raport.txt",append=TRUE )
+    write(paste(colname,groups,"p < 0.05 - NOT normal distribution"),"raport.txt",append=TRUE )
     return(FALSE)
   }
-  write(paste(colname,groups,"p > 0.05 - można założyć zgodność z rozkładem normalnym"),"raport.txt",append=TRUE )
+  write(paste(colname,groups,"p > 0.05 - normal distribution"),"raport.txt",append=TRUE )
   return (TRUE)
 }
 
@@ -218,11 +218,11 @@ Kruskal_test<-function(groups,values)
   p.value <- kruskal.test(values, groups)$p.value
  
   if(p.value < 0.05){
-    write(paste("Test Kruskala",round(p.value,3),"< 0.05 - są różnice pomiędzy grupami"),"raport.txt",append=TRUE)
+    write(paste("Test Kruskala",round(p.value,3),"< 0.05 - there are differences between groups"),"raport.txt",append=TRUE)
     Dunn_test(groups,values)
     return (TRUE)
   }else{
-    write(paste("Test Kruskala",round(p.value,3), "> 0.05 - brak różnic pomiędzy grupami"),"raport.txt",append=TRUE)
+    write(paste("Test Kruskala",round(p.value,3), "> 0.05 - no differences between groups"),"raport.txt",append=TRUE)
     return (FALSE)
   }
 }
@@ -237,9 +237,9 @@ Dunn_test<-function(groups,values)
     groupsCompared  <- res$res[row, "Comparison"]
     
     if (p.value < 0.05){
-      write(paste("Test Dunna",round(p.value,3),"< 0.05 - są różnice pomiędzy grupami ", groupsCompared),"raport.txt",append=TRUE)
+      write(paste("Test Dunna",round(p.value,3),"< 0.05 - there are differences between groups ", groupsCompared),"raport.txt",append=TRUE)
     } else {
-      #write(paste("Test Dunna",round(p.value,3), "> 0.05 - brak różnic pomiędzy grupami ", groupsCompared),"raport.txt",append=TRUE)
+      #write(paste("Test Dunna",round(p.value,3), "> 0.05 - no differences between groups ", groupsCompared),"raport.txt",append=TRUE)
     }
   }
 }
@@ -250,11 +250,11 @@ Anova_test<-function(groups,values)
 
   if(p.value<0.05)
   {
-    write(paste("Test Anova", round(p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    write(paste("Test Anova", round(p.value,2),  "< 0.05 - there are differeces between groups"), "raport.txt", append=TRUE)
     return (TRUE)
   }
   else{
-    write(paste("Test Anova", round(p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    write(paste("Test Anova", round(p.value,2), "> 0.05 - no differences between groups"), "raport.txt", append=TRUE)
     return(FALSE)
   }
 }
@@ -342,7 +342,7 @@ Statistics_tests<-function(df)
 
 Correlation_analysis<-function(df)
 {
-  
+  write("\n\nCOLUMN COMPARISION_______________\n","raport.txt",append=TRUE)
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
   colnames<-names(df[,-1])
@@ -365,19 +365,19 @@ Correlation_analysis<-function(df)
               r<-res$estimate
               if(r > 0.7 & r < 1)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Bardzo silna korelacja dodatnia"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Very strong positive correlation"),"raport.txt",append=TRUE)
               }
               if(r >= 0.5 & r < 0.7)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Silna korelacja dodatnia"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Strong positive correlation"),"raport.txt",append=TRUE)
               }
               if(r >= 0.3 & r < 0.5)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Korelacja dodatnia o średnim natężeniu"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Positive correlation of medium intensity"),"raport.txt",append=TRUE)
               }
               if(r >= 0.2 & r < 0.3)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Słaba korelacja dodatnia"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Weak positive correlation"),"raport.txt",append=TRUE)
               }
               # if(r >= -0.2 & r <= 0.2)
               # {
@@ -385,19 +385,19 @@ Correlation_analysis<-function(df)
               # }
               if(r > -0.3 & r < -0.2)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Słaba korelacja ujemna"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Weak negative correlation"),"raport.txt",append=TRUE)
               }
               if(r > -0.5 & r <= -0.3)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Korelacja ujemna o średnim natężeniu"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Negative correlation of medium intensity"),"raport.txt",append=TRUE)
               }
               if(r > -0.7 & r <= -0.5)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Silna korelacja ujemna"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Strong negative correlation"),"raport.txt",append=TRUE)
               }
               if(r > -1 & r <= -0.7)
               {
-                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Bardzo silna korelacja ujemna"),"raport.txt",append=TRUE)
+                write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Very strong negative correlation"),"raport.txt",append=TRUE)
               }
 
             }

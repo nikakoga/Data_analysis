@@ -228,58 +228,58 @@ NORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________
 
 
  wiek 
-wariancja homogeniczna
-CHOR1 wiek p > 0.05 - można założyć zgodność z rozkładem normalnym
-CHOR2 wiek p > 0.05 - można założyć zgodność z rozkładem normalnym
-KONTROLA wiek p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 wiek p > 0.05 - normal distribution
+CHOR2 wiek p > 0.05 - normal distribution
+KONTROLA wiek p > 0.05 - normal distribution
 
  hsCRP 
-wariancja homogeniczna
-CHOR1 hsCRP p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-CHOR2 hsCRP p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-KONTROLA hsCRP p < 0.05 - nie można założyć zgodności z rozkładem normalnym
+homogeneous variance
+CHOR1 hsCRP p < 0.05 - not normal distribution
+CHOR2 hsCRP p < 0.05 - not normal distribution
+KONTROLA hsCRP p < 0.05 - not normal distribution
 
  ERY 
-wariancja homogeniczna
-CHOR1 ERY p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-CHOR2 ERY p > 0.05 - można założyć zgodność z rozkładem normalnym
-KONTROLA ERY p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 ERY p < 0.05 - not normal distribution
+CHOR2 ERY p > 0.05 - normal distribution
+KONTROLA ERY p > 0.05 - normal distribution
 
  PLT 
-wariancja homogeniczna
-CHOR1 PLT p > 0.05 - można założyć zgodność z rozkładem normalnym
-CHOR2 PLT p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-KONTROLA PLT p < 0.05 - nie można założyć zgodności z rozkładem normalnym
+homogeneous variance
+CHOR1 PLT p > 0.05 - normal distribution
+CHOR2 PLT p < 0.05 - not normal distribution
+KONTROLA PLT p < 0.05 - not normal distribution
 
  HGB 
-wariancja homogeniczna
-CHOR1 HGB p > 0.05 - można założyć zgodność z rozkładem normalnym
-CHOR2 HGB p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-KONTROLA HGB p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 HGB p > 0.05 - normal distribution
+CHOR2 HGB p < 0.05 - not normal distribution
+KONTROLA HGB p > 0.05 - normal distribution
 
  HCT 
-wariancja homogeniczna
-CHOR1 HCT p > 0.05 - można założyć zgodność z rozkładem normalnym
-CHOR2 HCT p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-KONTROLA HCT p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 HCT p > 0.05 - normal distribution
+CHOR2 HCT p < 0.05 - not normal distribution
+KONTROLA HCT p > 0.05 - normal distribution
 
  MCHC 
-wariancja homogeniczna
-CHOR1 MCHC p > 0.05 - można założyć zgodność z rozkładem normalnym
-CHOR2 MCHC p > 0.05 - można założyć zgodność z rozkładem normalnym
-KONTROLA MCHC p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 MCHC p > 0.05 - normal distribution
+CHOR2 MCHC p > 0.05 - normal distribution
+KONTROLA MCHC p > 0.05 - normal distribution
 
  MON 
-wariancja homogeniczna
-CHOR1 MON p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-CHOR2 MON p < 0.05 - nie można założyć zgodności z rozkładem normalnym
-KONTROLA MON p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 MON p < 0.05 - not normal distribution
+CHOR2 MON p < 0.05 - not normal distribution
+KONTROLA MON p > 0.05 - normal distribution
 
  LEU 
-wariancja homogeniczna
-CHOR1 LEU p > 0.05 - można założyć zgodność z rozkładem normalnym
-CHOR2 LEU p > 0.05 - można założyć zgodność z rozkładem normalnym
-KONTROLA LEU p > 0.05 - można założyć zgodność z rozkładem normalnym
+homogeneous variance
+CHOR1 LEU p > 0.05 - normal distribution
+CHOR2 LEU p > 0.05 - normal distribution
+KONTROLA LEU p > 0.05 - normal distribution
 
 
 CORRELATION ANALYSIS____________________
@@ -288,46 +288,50 @@ CORRELATION ANALYSIS____________________
 Test Anova 0.21 > 0.05 - brak różnic pomiędzy grupami
 
  hsCRP
-Test Kruskala 0.881 > 0.05 - brak różnic pomiędzy grupami
+Test Kruskala 0.881 > 0.05 - no differences between groups
 
  ERY
-Test Kruskala 0.154 > 0.05 - brak różnic pomiędzy grupami
+Test Kruskala 0.154 > 0.05 - no differences between groups
 
  PLT
-Test Kruskala 0.324 > 0.05 - brak różnic pomiędzy grupami
+Test Kruskala 0.324 > 0.05 - no differences between groups
 
  HGB
-Test Kruskala 0.001 < 0.05 - są różnice pomiędzy grupami
-Test Dunna 0.003 < 0.05 - są różnice pomiędzy grupami  CHOR1 - KONTROLA
-Test Dunna 0.003 < 0.05 - są różnice pomiędzy grupami  CHOR2 - KONTROLA
+Test Kruskala 0.001 < 0.05 - there are differences between groups
+Test Dunna 0.003 < 0.05 - there are differences between groups  CHOR1 - KONTROLA
+Test Dunna 0.003 < 0.05 - there are differences between groups  CHOR2 - KONTROLA
 
  HCT
-Test Kruskala 0.019 < 0.05 - są różnice pomiędzy grupami
-Test Dunna 0.019 < 0.05 - są różnice pomiędzy grupami  CHOR1 - KONTROLA
+Test Kruskala 0.019 < 0.05 - there are differences between groups
+Test Dunna 0.019 < 0.05 - there are differences between groups  CHOR1 - KONTROLA
 
  MCHC
 Test Anova 0 < 0.05 - są różnice pomiędzy grupami
 
  MON
-Test Kruskala 0.27 > 0.05 - brak różnic pomiędzy grupami
+Test Kruskala 0.27 > 0.05 - no differences between groups
 
  LEU
 Test Anova 0.6 > 0.05 - brak różnic pomiędzy grupami
-ERY  i  HGB :  Silna korelacja dodatnia
-ERY  i  HCT :  Silna korelacja dodatnia
-HGB  i  HCT :  Bardzo silna korelacja dodatnia
-HGB  i  MCHC :  Silna korelacja dodatnia
-HCT  i  MCHC :  Korelacja dodatnia o średnim natężeniu
-ERY  i  HGB :  Bardzo silna korelacja dodatnia
-ERY  i  HCT :  Bardzo silna korelacja dodatnia
-PLT  i  MCHC :  Silna korelacja ujemna
-HGB  i  HCT :  Bardzo silna korelacja dodatnia
-wiek  i  ERY :  Silna korelacja dodatnia
-wiek  i  MCHC :  Korelacja ujemna o średnim natężeniu
-wiek  i  LEU :  Silna korelacja ujemna
-hsCRP  i  LEU :  Korelacja dodatnia o średnim natężeniu
-ERY  i  PLT :  Korelacja dodatnia o średnim natężeniu
-ERY  i  HGB :  Silna korelacja dodatnia
-ERY  i  HCT :  Silna korelacja dodatnia
-ERY  i  MCHC :  Silna korelacja ujemna
-HGB  i  HCT :  Bardzo silna korelacja dodatnia
+
+
+COLUMN COMPARISION_______________
+
+ERY  i  HGB :  Strong positive correlation
+ERY  i  HCT :  Strong positive correlation
+HGB  i  HCT :  Very strong positive correlation
+HGB  i  MCHC :  Strong positive correlation
+HCT  i  MCHC :  Positive correlation of medium intensity
+ERY  i  HGB :  Very strong positive correlation
+ERY  i  HCT :  Very strong positive correlation
+PLT  i  MCHC :  Strong negative correlation
+HGB  i  HCT :  Very strong positive correlation
+wiek  i  ERY :  Strong positive correlation
+wiek  i  MCHC :  Negative correlation of medium intensity
+wiek  i  LEU :  Strong negative correlation
+hsCRP  i  LEU :  Positive correlation of medium intensity
+ERY  i  PLT :  Positive correlation of medium intensity
+ERY  i  HGB :  Strong positive correlation
+ERY  i  HCT :  Strong positive correlation
+ERY  i  MCHC :  Strong negative correlation
+HGB  i  HCT :  Very strong positive correlation
