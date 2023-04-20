@@ -1,23 +1,25 @@
-###TRYB WSADOWY
-#args = commandArgs(trailingOnly=TRUE)
-#if (length(args)==0) {
-# stop("Nalezy podejsc co najmniej jeden argument wejsciowy")
-#}
-#dane <- read.csv(file=args[1], header=TRUE)
-####TRYB WSADOWY
-
-
-setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
+#TRYB WSADOWY
+#!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<3&&length(args)==0) {
+stop("First arg is obligatory as a name of file, second is optional folder path to set working directory")
+}else{
+  data_with_NA <- read.csv2(file=args[1], header=TRUE)
+if(length(args)==2){
+  setwd(args[2])
+}
+}
+# setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
+# data_with_NA<-read.csv2("Dane.csv",header=TRUE)
+#_______________________________________________________________________________________________________________________
 library("Hmisc")
 library("ggpubr")
-
 
 Replace_blank_with_NA<-function(x)
 {
   x<-replace(x,x=='',NA)
   return(x)
 }
-
 Remove_NA <- function(df_old) {
   change_report <- c()
   
@@ -52,7 +54,6 @@ Remove_NA <- function(df_old) {
   
   return(df)
 } 
-
 count_groups <- function(column) {
   unique_elements <- unique(column)
   num_unique <- length(unique_elements)
@@ -62,9 +63,7 @@ count_groups <- function(column) {
   df
   write("\nGROPUS AND THEIR SIZE____________________\n","raport.txt",append=TRUE)
   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
-
 }
-
 Outliers_detection<-function(df)
 {
   splitted_groups<-split(df,df[1])
@@ -83,13 +82,11 @@ Outliers_detection<-function(df)
     {
       if(is.numeric(splitted_groups[[group]][[col]]))
       {
-        
         boxplot(splitted_groups[[group]][[col]],
                 xlab=group,
                 ylab = col)
         outliers<-boxplot.stats(splitted_groups[[group]][[col]])$out
         mtext(paste("Outliers: ", paste(outliers, collapse = ", ")))
-        
         
         if(length(outliers)>0)
         {
@@ -99,15 +96,12 @@ Outliers_detection<-function(df)
         {
           capture.output(cat(col,group,"no outliners","\n"), file = "raport.txt",append=TRUE)
         }
-        
       }
     }
     write("\n","raport.txt",append = TRUE)
   }
-  
   dev.off()
 }
-
 Characteristics<-function(df)
 {
   write("\n\nCHARACTERISTICS____________________","raport.txt",append=TRUE)
@@ -130,7 +124,6 @@ Characteristics<-function(df)
     }
   }
 }
-
 Descriptive_statistics<-function(df)
 {
   count_groups(df[1])
@@ -138,7 +131,6 @@ Descriptive_statistics<-function(df)
   Characteristics(df)
   
 }
-
 Homogenity_of_variance_raport<-function(values, groups,colname)
 {
   library(car)
@@ -151,7 +143,6 @@ Homogenity_of_variance_raport<-function(values, groups,colname)
     write(paste("\n",colname,"\nhomogeneous variance"),"raport.txt",append=TRUE )
     return (TRUE)
 }
-
 Normal_distribution_raport<-function(value,groups,colname)
 {
   p.value = shapiro.test(value)$p.value
@@ -162,7 +153,6 @@ Normal_distribution_raport<-function(value,groups,colname)
   write(paste(colname,groups,"p > 0.05 - normal distribution"),"raport.txt",append=TRUE )
   return (TRUE)
 }
-
 Density_normal_and_homogenic_info<-function(df)
 {
   library("ggpubr")
@@ -212,7 +202,6 @@ Density_normal_and_homogenic_info<-function(df)
   
   return(list(Not_Normal,Homogenic))
 }
-
 Kruskal_test<-function(groups,values)
 {
   p.value <- kruskal.test(values, groups)$p.value
@@ -226,7 +215,6 @@ Kruskal_test<-function(groups,values)
     return (FALSE)
   }
 }
-
 Dunn_test<-function(groups,values)
 {
   library("dunn.test")
@@ -243,7 +231,6 @@ Dunn_test<-function(groups,values)
     }
   }
 }
-
 Anova_test<-function(groups,values)
 {
   p.value<-summary(aov(values~groups))[[1]][["Pr(>F)"]][[1]]
@@ -258,7 +245,6 @@ Anova_test<-function(groups,values)
     return(FALSE)
   }
 }
-
 Apply_test<-function(df,Normal,Homogenic)
 {
   
@@ -296,7 +282,6 @@ Apply_test<-function(df,Normal,Homogenic)
     }
   }
 }
-
 T_Student<-function(groups, values)
 {
   res<-t.test(values~groups, var.equal = TRUE)
@@ -309,8 +294,6 @@ T_Student<-function(groups, values)
     return(FALSE)
   }
 }
-
-
 Welch<-function(groups, values)
 {
   res<-t.test(values~groups, var.equal = FALSE)
@@ -323,7 +306,6 @@ Welch<-function(groups, values)
     return(FALSE)
   }
 }
-
 Statistics_tests<-function(df)
 {
   colnames<-list(names(df[,-1]))
@@ -339,7 +321,6 @@ Statistics_tests<-function(df)
   # write(paste("\n\nHOMOGENIC",list(Homogenic)),"raport.txt",append=TRUE)
   Apply_test(df,Normal,Homogenic)
 }
-
 Correlation_analysis<-function(df)
 {
   write("\n\nCOLUMN COMPARISION_______________\n","raport.txt",append=TRUE)
@@ -347,22 +328,37 @@ Correlation_analysis<-function(df)
   groupnames<-names(splitted_groups)
   colnames<-names(df[,-1])
   
+  pdf(file= "Correlations.pdf" )
+  par(mfrow = c(1, length(splitted_groups)))
+  
   for (group in groupnames)
   {
+    write(paste("\n",group),"raport.txt",append=TRUE)
     sorted <- subset(df, df[[1]] == group)
     
     for(i in 1:(ncol(sorted)-1)){
       
       if(is.numeric(df[[i]])){
-        
+      
         for(j in (i+1):ncol(sorted)){
           
           if(is.numeric(df[[j]]))
           {
-            res <- cor.test(sorted[,i], sorted[,j],method="spearman")
+          res <- cor.test(sorted[,i], sorted[,j],method="spearman")
             if(res$p.value<0.05)
             {
-              r<-res$estimate
+             r<-res$estimate
+             x_col <- colnames(sorted)[i]
+             y_col <- colnames(sorted)[j]
+             p<-ggscatter(sorted, x = x_col, y = y_col,
+                       add = "reg.line", conf.int = TRUE,
+                       cor.coef = TRUE, cor.method = "spearman",
+                       xlab=x_col,
+                       ylab=y_col,
+                       main = paste(x_col, " vs. ", y_col)
+                       )
+             print(p)
+             
               if(r > 0.7 & r < 1)
               {
                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Very strong positive correlation"),"raport.txt",append=TRUE)
@@ -399,20 +395,17 @@ Correlation_analysis<-function(df)
               {
                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Very strong negative correlation"),"raport.txt",append=TRUE)
               }
-
             }
-            }
-            
+          }
         }
       }
     }
   }
+  
+  dev.off()
 }
 
-data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
 Statistics_tests(data)
 Correlation_analysis(data)
-
-

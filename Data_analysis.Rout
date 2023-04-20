@@ -1,0 +1,463 @@
+
+R version 4.2.2 (2022-10-31 ucrt) -- "Innocent and Trusting"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R jest oprogramowaniem darmowym i dostarczany jest BEZ JAKIEJKOLWIEK GWARANCJI.
+Możesz go rozpowszechniać pod pewnymi warunkami.
+Wpisz 'license()' lub 'licence()' aby uzyskać szczegóły dystrybucji.
+
+R jest projektem kolaboracyjnym z wieloma uczestnikami.
+Wpisz 'contributors()' aby uzyskać więcej informacji oraz
+'citation()' aby dowiedzieć się jak cytować R lub pakiety R w publikacjach.
+
+Wpisz 'demo()' aby zobaczyć demo, 'help()' aby uzyskać pomoc on-line, lub
+'help.start()' aby uzyskać pomoc w przeglądarce HTML.
+Wpisz 'q()' aby wyjść z R.
+
+> #TRYB WSADOWY
+> #!/usr/bin/env Rscript
+> args = commandArgs(trailingOnly=TRUE)
+> if (length(args)<3&&length(args)==0) {
++ stop("First arg is obligatory as a name of file, second is optional folder path to set working directory")
++ }else{
++   data_with_NA <- read.csv2(file=args[1], header=TRUE)
++ if(length(args)==2){
++   setwd(args[2])
++ }
++ }
+> # setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
+> # data_with_NA<-read.csv2("Dane.csv",header=TRUE)
+> #_______________________________________________________________________________________________________________________
+> library("Hmisc")
+
+Dołączanie pakietu: 'Hmisc'
+
+Następujące obiekty zostały zakryte z 'package:base':
+
+    format.pval, units
+
+Komunikat ostrzegawczy:
+pakiet 'Hmisc' został zbudowany w wersji R 4.2.3 
+> library("ggpubr")
+Ładowanie wymaganego pakietu: ggplot2
+Komunikaty ostrzegawcze:
+1: pakiet 'ggpubr' został zbudowany w wersji R 4.2.3 
+2: pakiet 'ggplot2' został zbudowany w wersji R 4.2.3 
+> 
+> Replace_blank_with_NA<-function(x)
++ {
++   x<-replace(x,x=='',NA)
++   return(x)
++ }
+> Remove_NA <- function(df_old) {
++   change_report <- c()
++   
++   df <- Replace_blank_with_NA(df_old)
++   
++   for (col in names(df)) {
++     # Check if NA in numeric column
++     if (is.numeric(df[[col]]) & any(is.na(df[[col]]))) {
++       NA_rows <- which(is.na(df[[col]]))  # get rows with missing values
++       for (row in NA_rows) {
++         # Calculate median based on values in the same group
++         group_value <- df[[1]][row]
++         median_value <- median(df[[col]][df[[1]] == group_value], na.rm = TRUE)
++         df[[col]][row] <- median_value
++         change_report <- c(change_report, paste("Missing data in column", col, "in group", df[row,1], "replacing with a median", median_value))
++       }
++     }
++   }
++   
++   #Now every NA in numeric columns are gone
++   #I delete every row with NA in non numeric column
++   df <- df[complete.cases(df), ]
++   
++   if (nrow(df_old) > nrow(df)) {
++     deleted <- paste("Lack of data in non-numeric column. Removed rows index:", paste(setdiff(rownames(df_old), rownames(df)), collapse = ", "))
++     change_report <- append(change_report, deleted)
++   }
++   
++   if (length(change_report) > 0) {
++     writeLines(change_report, "raport.txt")
++   }
++   
++   return(df)
++ } 
+> count_groups <- function(column) {
++   unique_elements <- unique(column)
++   num_unique <- length(unique_elements)
++   counts <- table(column)
++   
++   df <- data.frame(ID = names(counts), count = as.numeric(counts))
++   df
++   write("\nGROPUS AND THEIR SIZE____________________\n","raport.txt",append=TRUE)
++   write.table(df,"raport.txt",append=TRUE, col.names = FALSE,row.names=FALSE)
++ }
+> Outliers_detection<-function(df)
++ {
++   splitted_groups<-split(df,df[1])
++   groupnames<-names(splitted_groups)
++   
++   write("\n\nOUTLIERS____________________","raport.txt",append=TRUE)
++   
++   pdf(file= "Outliers.pdf" )
++   
++   
++   colnames<-names(df[,-1])
++   par(mfrow = c(1, length(splitted_groups)))
++   for(col in colnames)
++   {
++     for(group in groupnames)
++     {
++       if(is.numeric(splitted_groups[[group]][[col]]))
++       {
++         boxplot(splitted_groups[[group]][[col]],
++                 xlab=group,
++                 ylab = col)
++         outliers<-boxplot.stats(splitted_groups[[group]][[col]])$out
++         mtext(paste("Outliers: ", paste(outliers, collapse = ", ")))
++         
++         if(length(outliers)>0)
++         {
++           capture.output(cat(col,group,outliers,"\n"), file = "raport.txt",append=TRUE)
++         }
++         else
++         {
++           capture.output(cat(col,group,"no outliners","\n"), file = "raport.txt",append=TRUE)
++         }
++       }
++     }
++     write("\n","raport.txt",append = TRUE)
++   }
++   dev.off()
++ }
+> Characteristics<-function(df)
++ {
++   write("\n\nCHARACTERISTICS____________________","raport.txt",append=TRUE)
++   splitted_groups<-split(df,df[1])
++   groupnames<-names(splitted_groups)
++   
++   colnames<-names(df[,-1])
++   for(col in colnames)
++   {
++     for(group in groupnames)
++     {
++       if(is.numeric(splitted_groups[[group]][[col]]))
++       {
++         
++         write(paste('\n\n', group, '\n', col), "raport.txt", append = TRUE)
++         
++         s <- summary(splitted_groups[[group]][[col]])
++         capture.output(s, file = "raport.txt",append=TRUE)
++       }
++     }
++   }
++ }
+> Descriptive_statistics<-function(df)
++ {
++   count_groups(df[1])
++   Outliers_detection(df)
++   Characteristics(df)
++   
++ }
+> Homogenity_of_variance_raport<-function(values, groups,colname)
++ {
++   library(car)
++   
++   p.value = leveneTest(values, groups)$"Pr(>F"[1]
++   if(p.value < 0.05){
++     write(paste("\n",colname,"\n","non-homogeneous variance"),"raport.txt",append=TRUE )
++     return(FALSE)
++   }
++     write(paste("\n",colname,"\nhomogeneous variance"),"raport.txt",append=TRUE )
++     return (TRUE)
++ }
+> Normal_distribution_raport<-function(value,groups,colname)
++ {
++   p.value = shapiro.test(value)$p.value
++   if(p.value < 0.05){
++     write(paste(colname,groups,"p < 0.05 - NOT normal distribution"),"raport.txt",append=TRUE )
++     return(FALSE)
++   }
++   write(paste(colname,groups,"p > 0.05 - normal distribution"),"raport.txt",append=TRUE )
++   return (TRUE)
++ }
+> Density_normal_and_homogenic_info<-function(df)
++ {
++   library("ggpubr")
++   write("\n\nNORMAL DISTRIBUTION AND HOMOGENEITY OF VARIANCE____________________\n","raport.txt",append=TRUE )
++   splitted_groups<-split(df,df[1])
++   groupnames<-names(splitted_groups)
++   colnames<-names(df[,-1])
++   
++   Homogenic<-c()
++   Not_Normal<-c()
++   
++   pdf(file= "Density.pdf" )
++   par(mfrow = c(1, length(splitted_groups)))
++ 
++   for(col in colnames)
++   {
++     if(is.numeric(df[[col]]))
++     {
++       if(Homogenity_of_variance_raport(df[[col]], df[[1]],col))
++       {
++         Homogenic<-append(Homogenic,col)
++       }
++       
++       for(group in groupnames)
++       {
++         
++         if(is.numeric(splitted_groups[[group]][[col]]))
++         {
++           if(!Normal_distribution_raport(splitted_groups[[group]][[col]],col,group))
++           {
++             Not_Normal<-append(Not_Normal,col)
++           }
++           p<-ggdensity(df[df[[1]] == group, ],
++                     x = col,
++                     main = paste(col, group, sep = " "),
++                     xlab = col
++           )
++           print(p)
++           
++         }
++       }
++     }
++     
++   }
++   
++   dev.off()
++   
++   return(list(Not_Normal,Homogenic))
++ }
+> Kruskal_test<-function(groups,values)
++ {
++   p.value <- kruskal.test(values, groups)$p.value
++  
++   if(p.value < 0.05){
++     write(paste("Test Kruskala",round(p.value,3),"< 0.05 - there are differences between groups"),"raport.txt",append=TRUE)
++     Dunn_test(groups,values)
++     return (TRUE)
++   }else{
++     write(paste("Test Kruskala",round(p.value,3), "> 0.05 - no differences between groups"),"raport.txt",append=TRUE)
++     return (FALSE)
++   }
++ }
+> Dunn_test<-function(groups,values)
++ {
++   library("dunn.test")
++   library("FSA")
++   res<-dunnTest(values~groups)
++   for (row in 1:nrow(res$res)) {
++     p.value <- res$res[row, "P.adj"]
++     groupsCompared  <- res$res[row, "Comparison"]
++     
++     if (p.value < 0.05){
++       write(paste("Test Dunna",round(p.value,3),"< 0.05 - there are differences between groups ", groupsCompared),"raport.txt",append=TRUE)
++     } else {
++       #write(paste("Test Dunna",round(p.value,3), "> 0.05 - no differences between groups ", groupsCompared),"raport.txt",append=TRUE)
++     }
++   }
++ }
+> Anova_test<-function(groups,values)
++ {
++   p.value<-summary(aov(values~groups))[[1]][["Pr(>F)"]][[1]]
++ 
++   if(p.value<0.05)
++   {
++     write(paste("Test Anova", round(p.value,2),  "< 0.05 - there are differeces between groups"), "raport.txt", append=TRUE)
++     return (TRUE)
++   }
++   else{
++     write(paste("Test Anova", round(p.value,2), "> 0.05 - no differences between groups"), "raport.txt", append=TRUE)
++     return(FALSE)
++   }
++ }
+> Apply_test<-function(df,Normal,Homogenic)
++ {
++   
++   write("\n\nCORRELATION ANALYSIS____________________","raport.txt",append=TRUE)
++   splitted_groups<-split(df,df[1])
++   groupnames<-names(splitted_groups)
++   group_number <- length(groupnames)
++   
++   colnames<-names(df[,-1])
++   
++   for(col in colnames)
++   {
++       if(is.numeric(df[[col]]))
++       {
++         write(paste("\n",col),"raport.txt",append=TRUE)
++         if(group_number>2)
++         {
++           if(col %in% Normal & col %in% Homogenic)
++           {
++             Anova_test(df[[1]],df[[col]])
++           }
++           else
++           {
++             Kruskal_test(df[[1]],df[[col]])
++           }
++         }
++         if(group_number==2){
++           if(col %in% Normal & col %in% Homogenic){
++             T_Student(df[[1]],df[[col]])
++           }
++           else{
++             Welch(df[[1]],df[[col]])
++           }
++         }
++     }
++   }
++ }
+> T_Student<-function(groups, values)
++ {
++   res<-t.test(values~groups, var.equal = TRUE)
++   if (res$p.value < 0.05) {
++     write(paste("Test T-Studenta", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
++     return (TRUE)
++   }
++   else{
++     write(paste("Test T-Studenta", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
++     return(FALSE)
++   }
++ }
+> Welch<-function(groups, values)
++ {
++   res<-t.test(values~groups, var.equal = FALSE)
++   if (res$p.value < 0.05) {
++     write(paste("Test Welcha", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
++     return (TRUE)
++   }
++   else{
++     write(paste("Test Welcha", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
++     return(FALSE)
++   }
++ }
+> Statistics_tests<-function(df)
++ {
++   colnames<-list(names(df[,-1]))
++   
++   Result<-Density_normal_and_homogenic_info(df)
++   Not_Normal<-as.list(unique((Result)[1][[1]]))
++   Normal<- as.list(setdiff(colnames[[1]], Not_Normal))
++   Homogenic<-as.list(unique((Result[2])[[1]]))
++   # FYI
++   # write(paste("\n\nNOT_NORMAL",list(Not_Normal)),"raport.txt",append=TRUE)
++   # write(paste("\n\nALL",colnames),"raport.txt",append=TRUE)
++   # write(paste("\n\nNORMAL",list(Normal)),"raport.txt",append=TRUE)
++   # write(paste("\n\nHOMOGENIC",list(Homogenic)),"raport.txt",append=TRUE)
++   Apply_test(df,Normal,Homogenic)
++ }
+> Correlation_analysis<-function(df)
++ {
++   write("\n\nCOLUMN COMPARISION_______________\n","raport.txt",append=TRUE)
++   splitted_groups<-split(df,df[1])
++   groupnames<-names(splitted_groups)
++   colnames<-names(df[,-1])
++   
++   pdf(file= "Correlations.pdf" )
++   par(mfrow = c(1, length(splitted_groups)))
++   
++   for (group in groupnames)
++   {
++     write(paste("\n",group),"raport.txt",append=TRUE)
++     sorted <- subset(df, df[[1]] == group)
++     
++     for(i in 1:(ncol(sorted)-1)){
++       
++       if(is.numeric(df[[i]])){
++       
++         for(j in (i+1):ncol(sorted)){
++           
++           if(is.numeric(df[[j]]))
++           {
++           res <- cor.test(sorted[,i], sorted[,j],method="spearman")
++             if(res$p.value<0.05)
++             {
++              r<-res$estimate
++              x_col <- colnames(sorted)[i]
++              y_col <- colnames(sorted)[j]
++              p<-ggscatter(sorted, x = x_col, y = y_col,
++                        add = "reg.line", conf.int = TRUE,
++                        cor.coef = TRUE, cor.method = "spearman",
++                        xlab=x_col,
++                        ylab=y_col,
++                        main = paste(x_col, " vs. ", y_col)
++                        )
++              print(p)
++              
++               if(r > 0.7 & r < 1)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Very strong positive correlation"),"raport.txt",append=TRUE)
++               }
++               if(r >= 0.5 & r < 0.7)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Strong positive correlation"),"raport.txt",append=TRUE)
++               }
++               if(r >= 0.3 & r < 0.5)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Positive correlation of medium intensity"),"raport.txt",append=TRUE)
++               }
++               if(r >= 0.2 & r < 0.3)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Weak positive correlation"),"raport.txt",append=TRUE)
++               }
++               # if(r >= -0.2 & r <= 0.2)
++               # {
++               #   write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Brak korelacji"),"raport.txt",append=TRUE)
++               # }
++               if(r > -0.3 & r < -0.2)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Weak negative correlation"),"raport.txt",append=TRUE)
++               }
++               if(r > -0.5 & r <= -0.3)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Negative correlation of medium intensity"),"raport.txt",append=TRUE)
++               }
++               if(r > -0.7 & r <= -0.5)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Strong negative correlation"),"raport.txt",append=TRUE)
++               }
++               if(r > -1 & r <= -0.7)
++               {
++                 write(paste( colnames(sorted)[i], " i ", colnames(sorted)[j], ": ","Very strong negative correlation"),"raport.txt",append=TRUE)
++               }
++             }
++           }
++         }
++       }
++     }
++   }
++   
++   dev.off()
++ }
+> 
+> data<-Remove_NA(data_with_NA)
+> Descriptive_statistics(data)
+> Statistics_tests(data)
+Ładowanie wymaganego pakietu: carData
+Registered S3 methods overwritten by 'FSA':
+  method       from
+  confint.boot car 
+  hist.boot    car 
+## FSA v0.9.4. See citation('FSA') if used in publication.
+## Run fishR() for related website and fishR('IFAR') for related book.
+
+Dołączanie pakietu: 'FSA'
+
+Następujący obiekt został zakryty z 'package:car':
+
+    bootCase
+
+Było 14 ostrzeżenie (użyj 'warnings()' aby je zobaczyć)
+> Correlation_analysis(data)
+null device 
+          1 
+Było 50 lub więcej ostrzeżeń (użyj 'warnings()' aby zobaczyć pierwsze 50)
+> 
+> proc.time()
+użytkownik     system   upłynęło 
+      9.57       0.50      10.61 

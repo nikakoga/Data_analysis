@@ -235,32 +235,32 @@ KONTROLA wiek p > 0.05 - normal distribution
 
  hsCRP 
 homogeneous variance
-CHOR1 hsCRP p < 0.05 - not normal distribution
-CHOR2 hsCRP p < 0.05 - not normal distribution
-KONTROLA hsCRP p < 0.05 - not normal distribution
+CHOR1 hsCRP p < 0.05 - NOT normal distribution
+CHOR2 hsCRP p < 0.05 - NOT normal distribution
+KONTROLA hsCRP p < 0.05 - NOT normal distribution
 
  ERY 
 homogeneous variance
-CHOR1 ERY p < 0.05 - not normal distribution
+CHOR1 ERY p < 0.05 - NOT normal distribution
 CHOR2 ERY p > 0.05 - normal distribution
 KONTROLA ERY p > 0.05 - normal distribution
 
  PLT 
 homogeneous variance
 CHOR1 PLT p > 0.05 - normal distribution
-CHOR2 PLT p < 0.05 - not normal distribution
-KONTROLA PLT p < 0.05 - not normal distribution
+CHOR2 PLT p < 0.05 - NOT normal distribution
+KONTROLA PLT p < 0.05 - NOT normal distribution
 
  HGB 
 homogeneous variance
 CHOR1 HGB p > 0.05 - normal distribution
-CHOR2 HGB p < 0.05 - not normal distribution
+CHOR2 HGB p < 0.05 - NOT normal distribution
 KONTROLA HGB p > 0.05 - normal distribution
 
  HCT 
 homogeneous variance
 CHOR1 HCT p > 0.05 - normal distribution
-CHOR2 HCT p < 0.05 - not normal distribution
+CHOR2 HCT p < 0.05 - NOT normal distribution
 KONTROLA HCT p > 0.05 - normal distribution
 
  MCHC 
@@ -271,8 +271,8 @@ KONTROLA MCHC p > 0.05 - normal distribution
 
  MON 
 homogeneous variance
-CHOR1 MON p < 0.05 - not normal distribution
-CHOR2 MON p < 0.05 - not normal distribution
+CHOR1 MON p < 0.05 - NOT normal distribution
+CHOR2 MON p < 0.05 - NOT normal distribution
 KONTROLA MON p > 0.05 - normal distribution
 
  LEU 
@@ -285,7 +285,7 @@ KONTROLA LEU p > 0.05 - normal distribution
 CORRELATION ANALYSIS____________________
 
  wiek
-Test Anova 0.21 > 0.05 - brak różnic pomiędzy grupami
+Test Anova 0.21 > 0.05 - no differences between groups
 
  hsCRP
 Test Kruskala 0.881 > 0.05 - no differences between groups
@@ -306,26 +306,32 @@ Test Kruskala 0.019 < 0.05 - there are differences between groups
 Test Dunna 0.019 < 0.05 - there are differences between groups  CHOR1 - KONTROLA
 
  MCHC
-Test Anova 0 < 0.05 - są różnice pomiędzy grupami
+Test Anova 0 < 0.05 - there are differeces between groups
 
  MON
 Test Kruskala 0.27 > 0.05 - no differences between groups
 
  LEU
-Test Anova 0.6 > 0.05 - brak różnic pomiędzy grupami
+Test Anova 0.6 > 0.05 - no differences between groups
 
 
 COLUMN COMPARISION_______________
 
+
+ CHOR1
 ERY  i  HGB :  Strong positive correlation
 ERY  i  HCT :  Strong positive correlation
 HGB  i  HCT :  Very strong positive correlation
 HGB  i  MCHC :  Strong positive correlation
 HCT  i  MCHC :  Positive correlation of medium intensity
+
+ CHOR2
 ERY  i  HGB :  Very strong positive correlation
 ERY  i  HCT :  Very strong positive correlation
 PLT  i  MCHC :  Strong negative correlation
 HGB  i  HCT :  Very strong positive correlation
+
+ KONTROLA
 wiek  i  ERY :  Strong positive correlation
 wiek  i  MCHC :  Negative correlation of medium intensity
 wiek  i  LEU :  Strong negative correlation
