@@ -282,7 +282,7 @@ CHOR2 LEU p > 0.05 - normal distribution
 KONTROLA LEU p > 0.05 - normal distribution
 
 
-CORRELATION ANALYSIS____________________
+GROUP DIFFERENCES____________________
 
  wiek
 Test Anova 0.21 > 0.05 - no differences between groups
@@ -307,6 +307,9 @@ Test Dunna 0.019 < 0.05 - there are differences between groups  CHOR1 - KONTROLA
 
  MCHC
 Test Anova 0 < 0.05 - there are differeces between groups
+Test Tukey 0.373 > 0.05 - no differences between groups  CHOR2-CHOR1
+Test Tukey 0.06 > 0.05 - no differences between groups  KONTROLA-CHOR1
+Test Tukey 0.001 < 0.05 - there are differences between groups  KONTROLA-CHOR2
 
  MON
 Test Kruskala 0.27 > 0.05 - no differences between groups
@@ -315,7 +318,7 @@ Test Kruskala 0.27 > 0.05 - no differences between groups
 Test Anova 0.6 > 0.05 - no differences between groups
 
 
-COLUMN COMPARISION_______________
+CORRELATION ANALYSIS_______________
 
 
  CHOR1

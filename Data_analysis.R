@@ -9,8 +9,8 @@ if(length(args)==2){
   setwd(args[2])
 }
 }
-# setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
-# data_with_NA<-read.csv2("Dane.csv",header=TRUE)
+#setwd("C:/Users/weron/Documents/Studia/PP/4_semestr/SAD/Projekt")
+#data_with_NA<-read.csv2("Dane.csv",header=TRUE)
 #_______________________________________________________________________________________________________________________
 library("Hmisc")
 library("ggpubr")
@@ -231,6 +231,21 @@ Dunn_test<-function(groups,values)
     }
   }
 }
+Tukey_test<-function(groups,values)
+{
+  library("TukeyC")
+  res<-TukeyHSD(aov(values~groups))
+  for (row in 1:nrow(res$groups)) {
+    p.value <- res$groups[[row, 4]]
+    groupsCompared  <- rownames(res$groups)[[row]]
+    
+    if (p.value < 0.05){
+      write(paste("Test Tukey",round(p.value,3),"< 0.05 - there are differences between groups ", groupsCompared),"raport.txt",append=TRUE)
+    } else {
+      write(paste("Test Tukey",round(p.value,3), "> 0.05 - no differences between groups ", groupsCompared),"raport.txt",append=TRUE)
+    }
+  }
+}
 Anova_test<-function(groups,values)
 {
   p.value<-summary(aov(values~groups))[[1]][["Pr(>F)"]][[1]]
@@ -238,6 +253,7 @@ Anova_test<-function(groups,values)
   if(p.value<0.05)
   {
     write(paste("Test Anova", round(p.value,2),  "< 0.05 - there are differeces between groups"), "raport.txt", append=TRUE)
+    Tukey_test(groups,values)
     return (TRUE)
   }
   else{
@@ -245,10 +261,46 @@ Anova_test<-function(groups,values)
     return(FALSE)
   }
 }
+T_Student_test<-function(groups, values)
+{
+  res<-t.test(values~groups, var.equal = TRUE)
+  if (res$p.value < 0.05) {
+    write(paste("Test T-Studenta", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    return (TRUE)
+  }
+  else{
+    write(paste("Test T-Studenta", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    return(FALSE)
+  }
+}
+Welch_test<-function(groups, values)
+{
+  res<-t.test(values~groups, var.equal = FALSE)
+  if (res$p.value < 0.05) {
+    write(paste("Test Welcha", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    return (TRUE)
+  }
+  else{
+    write(paste("Test Welcha", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    return(FALSE)
+  }
+}
+Wilcoxon_test<-function(groups,values)
+{
+  res<-wilcox.test(values~groups, var.equal = FALSE)
+  if (res$p.value < 0.05) {
+    write(paste("Test Wilcoxona", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
+    return (TRUE)
+  }
+  else{
+    write(paste("Test Wilcoxona", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
+    return(FALSE)
+  }
+}
 Apply_test<-function(df,Normal,Homogenic)
 {
   
-  write("\n\nCORRELATION ANALYSIS____________________","raport.txt",append=TRUE)
+  write("\n\nGROUP DIFFERENCES____________________","raport.txt",append=TRUE)
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
   group_number <- length(groupnames)
@@ -273,37 +325,20 @@ Apply_test<-function(df,Normal,Homogenic)
         }
         if(group_number==2){
           if(col %in% Normal & col %in% Homogenic){
-            T_Student(df[[1]],df[[col]])
+            T_Student_test(df[[1]],df[[col]])
           }
           else{
-            Welch(df[[1]],df[[col]])
+            if(col %in% Normal & !(col %in% Homogenic)){
+              Welch_test(df[[1]],df[[col]])
+            }
+            if(!(col %in% Normal))
+            {
+              Wilcoxon_test(df[[1]],df[[col]])
+            }
           }
+          
         }
     }
-  }
-}
-T_Student<-function(groups, values)
-{
-  res<-t.test(values~groups, var.equal = TRUE)
-  if (res$p.value < 0.05) {
-    write(paste("Test T-Studenta", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
-    return (TRUE)
-  }
-  else{
-    write(paste("Test T-Studenta", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
-    return(FALSE)
-  }
-}
-Welch<-function(groups, values)
-{
-  res<-t.test(values~groups, var.equal = FALSE)
-  if (res$p.value < 0.05) {
-    write(paste("Test Welcha", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
-    return (TRUE)
-  }
-  else{
-    write(paste("Test Welcha", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
-    return(FALSE)
   }
 }
 Statistics_tests<-function(df)
@@ -323,7 +358,7 @@ Statistics_tests<-function(df)
 }
 Correlation_analysis<-function(df)
 {
-  write("\n\nCOLUMN COMPARISION_______________\n","raport.txt",append=TRUE)
+  write("\n\nCORRELATION ANALYSIS_______________\n","raport.txt",append=TRUE)
   splitted_groups<-split(df,df[1])
   groupnames<-names(splitted_groups)
   colnames<-names(df[,-1])
@@ -404,8 +439,32 @@ Correlation_analysis<-function(df)
   
   dev.off()
 }
-
+Generate_heatmap<-function(df)
+{
+  library(ggplot2)
+  library(reshape2)
+  splitted_groups<-split(df,df[1])
+  groupnames<-names(splitted_groups)
+  
+  pdf(file= "Heatmaps.pdf" )
+  par(mfrow = c(1, length(splitted_groups)))
+  
+  for(group in groupnames)
+  {
+    # retrieve numeric data for group
+    data <- cor(df[sapply(df,is.numeric)])
+    
+    # create plot
+    p<-ggplot(
+        melt(data), aes(x = Var1, y = Var2, fill = value)
+      ) + geom_tile() + scale_fill_distiller(palette = "Spectral") + ggtitle(group)
+    print(p)
+  }
+  
+  dev.off()
+}
 data<-Remove_NA(data_with_NA)
 Descriptive_statistics(data)
 Statistics_tests(data)
 Correlation_analysis(data)
+Generate_heatmap(data)

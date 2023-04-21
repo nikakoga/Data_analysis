@@ -275,10 +275,34 @@ Komunikaty ostrzegawcze:
 +     return(FALSE)
 +   }
 + }
+> T_Student<-function(groups, values)
++ {
++   res<-t.test(values~groups, var.equal = TRUE)
++   if (res$p.value < 0.05) {
++     write(paste("Test T-Studenta", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
++     return (TRUE)
++   }
++   else{
++     write(paste("Test T-Studenta", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
++     return(FALSE)
++   }
++ }
+> Welch<-function(groups, values)
++ {
++   res<-t.test(values~groups, var.equal = FALSE)
++   if (res$p.value < 0.05) {
++     write(paste("Test Welcha", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
++     return (TRUE)
++   }
++   else{
++     write(paste("Test Welcha", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
++     return(FALSE)
++   }
++ }
 > Apply_test<-function(df,Normal,Homogenic)
 + {
 +   
-+   write("\n\nCORRELATION ANALYSIS____________________","raport.txt",append=TRUE)
++   write("\n\nGROUP DIFFERENCES____________________","raport.txt",append=TRUE)
 +   splitted_groups<-split(df,df[1])
 +   groupnames<-names(splitted_groups)
 +   group_number <- length(groupnames)
@@ -312,30 +336,6 @@ Komunikaty ostrzegawcze:
 +     }
 +   }
 + }
-> T_Student<-function(groups, values)
-+ {
-+   res<-t.test(values~groups, var.equal = TRUE)
-+   if (res$p.value < 0.05) {
-+     write(paste("Test T-Studenta", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
-+     return (TRUE)
-+   }
-+   else{
-+     write(paste("Test T-Studenta", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
-+     return(FALSE)
-+   }
-+ }
-> Welch<-function(groups, values)
-+ {
-+   res<-t.test(values~groups, var.equal = FALSE)
-+   if (res$p.value < 0.05) {
-+     write(paste("Test Welcha", round(res$p.value,2),  "< 0.05 - są różnice pomiędzy grupami"), "raport.txt", append=TRUE)
-+     return (TRUE)
-+   }
-+   else{
-+     write(paste("Test Welcha", round(res$p.value,2), "> 0.05 - brak różnic pomiędzy grupami"), "raport.txt", append=TRUE)
-+     return(FALSE)
-+   }
-+ }
 > Statistics_tests<-function(df)
 + {
 +   colnames<-list(names(df[,-1]))
@@ -353,7 +353,7 @@ Komunikaty ostrzegawcze:
 + }
 > Correlation_analysis<-function(df)
 + {
-+   write("\n\nCOLUMN COMPARISION_______________\n","raport.txt",append=TRUE)
++   write("\n\nCORRELATION ANALYSIS_______________\n","raport.txt",append=TRUE)
 +   splitted_groups<-split(df,df[1])
 +   groupnames<-names(splitted_groups)
 +   colnames<-names(df[,-1])
@@ -460,4 +460,4 @@ Było 50 lub więcej ostrzeżeń (użyj 'warnings()' aby zobaczyć pierwsze 50)
 > 
 > proc.time()
 użytkownik     system   upłynęło 
-      8.60       0.50       9.28 
+      9.04       0.42       9.76 
